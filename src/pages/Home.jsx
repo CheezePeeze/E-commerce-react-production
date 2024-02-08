@@ -4,6 +4,7 @@ import MultiCarousel from '../components/MultiCarousel'
 import axios from 'axios'
 import SearchBar from '../components/SearchBar'
 
+
 const Home = () => {
   const [searchItems, setSearchItems] = useState([])
   const [randomItems, setRandomItems] = useState([])
