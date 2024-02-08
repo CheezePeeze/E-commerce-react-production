@@ -1,16 +1,16 @@
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
-const MultiCarousel = () => {
+const MultiCarousel = ({ items }) => {
   return (
     <Carousel
       additionalTransfrom={0}
       arrows
-      autoPlay
-      autoPlaySpeed={1000}
+      autoPlay={false}
+      autoPlaySpeed={5000}
       centerMode={false}
       className=""
-      containerClass="container-with-dots"
+      containerClass="container-with-dots my-5"
       dotListClass=""
       draggable
       focusOnSelect={false}
@@ -28,7 +28,7 @@ const MultiCarousel = () => {
             max: 3000,
             min: 1024
           },
-          items: 3,
+          items: 6,
           partialVisibilityGutter: 40
         },
         mobile: {
@@ -54,13 +54,15 @@ const MultiCarousel = () => {
       shouldResetAutoplay
       showDots={false}
       sliderClass=""
-      slidesToSlide={2}
+      slidesToSlide={4}
       swipeable
     >
-      <div>Item 1</div>
-      <div>Item 2</div>
-      <div>Item 3</div>
-      <div>Item 4</div>
+      {items.map(item => (
+        <div key={item.id} className=' '>
+          <img src={item.img} />
+          <h6>{item.id}</h6>
+        </div>
+      ))}
     </Carousel>
   )
 }
