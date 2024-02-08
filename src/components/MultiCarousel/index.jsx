@@ -60,10 +60,10 @@ const MultiCarousel = ({ items }) => {
       {items.map(item => (
         <div key={item.id} className='flex items-start flex-col'>
           <img src={item.img} />
-          <h5>Just 40.99 €</h5>
-          <h6>Name</h6>
-          <span>Seller</span>
-          {/* <h6>Rating</h6> */}
+          <h5>Just {item.price} €</h5>
+          <h6>{item.title}</h6>
+          <span>{item.seller}</span>
+          <h6>{item.rating}</h6>
         </div>
       ))}
     </Carousel>
