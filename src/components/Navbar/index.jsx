@@ -1,8 +1,9 @@
 import logo from '../../assets/logo.png';
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
+import profileLogo from '../../assets/profile-simple.svg'
+
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -16,15 +17,7 @@ const Navbar = () => {
     <div className=' flex justify-between items-center m-5'>
       <img src={logo} width={200} />
       <div>
-        <Button
-          id="basic-button"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-        >
-          Dashboard
-        </Button>
+        <img src={profileLogo} onClick={handleClick} className='rounded-full hover:bg-gray-300 ' width='40' />
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
@@ -35,7 +28,6 @@ const Navbar = () => {
           }}
         >
           <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
           <MenuItem onClick={handleClose}>Logout</MenuItem>
         </Menu>
       </div>

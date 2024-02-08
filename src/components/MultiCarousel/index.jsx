@@ -1,16 +1,16 @@
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import './MultiCarousel.css'
 
 const MultiCarousel = ({ items }) => {
   return (
     <Carousel
       additionalTransfrom={0}
-      arrows
+      arrows={true}
       autoPlay={false}
       autoPlaySpeed={5000}
       centerMode={false}
-      className=""
-      containerClass="container-with-dots my-5"
+      containerClass="container-with-dots"
       dotListClass=""
       draggable
       focusOnSelect={false}
@@ -28,7 +28,7 @@ const MultiCarousel = ({ items }) => {
             max: 3000,
             min: 1024
           },
-          items: 6,
+          items: 5,
           partialVisibilityGutter: 40
         },
         mobile: {
@@ -53,14 +53,17 @@ const MultiCarousel = ({ items }) => {
       rtl={false}
       shouldResetAutoplay
       showDots={false}
-      sliderClass=""
-      slidesToSlide={4}
+      sliderClass="p-5"
+      slidesToSlide={5}
       swipeable
     >
       {items.map(item => (
-        <div key={item.id} className=' '>
+        <div key={item.id} className='flex items-start flex-col'>
           <img src={item.img} />
-          <h6>{item.id}</h6>
+          <h5>Just 40.99 €</h5>
+          <h6>Name</h6>
+          <span>Seller</span>
+          {/* <h6>Rating</h6> */}
         </div>
       ))}
     </Carousel>
