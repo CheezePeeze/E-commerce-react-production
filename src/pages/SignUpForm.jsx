@@ -1,22 +1,20 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const LoginFormPage = () => {
-	const [isUser, setIsUser] = useState(true);
+const SignUpForm = () => {
+	const [isCorporate, setIsCorporate] = useState(false);
 	const [inputValue, setInputValue] = useState('');
 	const [test, setTest] = useState();
 	const navigate = useNavigate();
 
-	const [dataStorage, setDataStorage] = useState({
-    
-  });
 	const [userStorage, setUserStorage] = useState({
 		firstName: '',
 		lastName: '',
 		email: '',
 		password: '',
 		confirmPassword: '',
-		isCorporate: isUser,
+		isCorporate: isCorporate,
 	});
 	const [corporateStorage, setCorporateStorage] = useState({
 		phoneNumber: '',
@@ -47,25 +45,46 @@ const LoginFormPage = () => {
 	const addressHandleChange = (event) => {
 		let { name, value } = event.target;
 		console.log(name);
-		if (isNaN(+value)) {
-			value = value.replace(/[^0-9]/g, '');
+		if (name === 'index') {
+			if (isNaN(+value)) {
+				value = value.replace(/[^0-9]/g, '');
+			}
 		}
 		setAddressStorage((prevAddressStorage) => ({
 			...prevAddressStorage,
 			[name]: value,
 		}));
 	};
-	const checkUserHandler = () => {
-		setIsUser(true);
-	};
 	const checkCorporateHandler = () => {
-		setIsUser(false);
+		setIsCorporate(true);
 	};
-	console.log(isUser);
+	const checkUserHandler = () => {
+		setIsCorporate(false);
+	};
+	console.log(isCorporate);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		if (isCorporate) {
+			console.log({
+				...userStorage,
+				corporateInfo: {
+					...corporateStorage,
+					companyAddress: { ...addressStorage },
+				},
+			});
+		} else {
+			console.log({ ...userStorage });
+		}
+		// axios.post(url, {
+		// 	...userStorage,
+		// 	corporateInfo: {
+		// 		...corporateStorage,
+		// 		companyAddress: { ...addressStorage },
+		// 	},
+		// });
 	};
+	// console.log(`form submitted=> ${}`);
 
 	return (
 		<div className="container mx-auto px-4 py-4">
@@ -221,7 +240,7 @@ const LoginFormPage = () => {
 						Confirm password
 					</label>
 				</div>
-				{!isUser && (
+				{isCorporate && (
 					<div className="relative z-0 w-full mb-5 group">
 						<div className="relative z-0 w-full mb-5 group">
 							<input
@@ -279,7 +298,7 @@ const LoginFormPage = () => {
 									className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 									placeholder="Index"
 									type="text"
-								  maxLength="6"
+									maxLength="6"
 								/>
 
 								<input
@@ -307,4 +326,4 @@ const LoginFormPage = () => {
 	);
 };
 
-export default LoginFormPage;
+export default SignUpForm;

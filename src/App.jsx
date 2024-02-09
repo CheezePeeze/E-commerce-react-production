@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import LoginFormPage from './pages/LoginFormPage';
+import SignUpForm from './pages/SignUpForm';
 import './index.css';
 function App() {
 	return (
 		<Routes>
 			<Route path="/" element={<Home />} />
-			<Route path="/login" element={<LoginFormPage />} />
+			<Route path="/sign-up" element={<SignUpForm />} />
 		</Routes>
 	);
 }
