@@ -44,8 +44,20 @@ const Home = () => {
     }
   }
 
-  const filterItemByCategory = (categoryId, max) => {
+  const filterItemByCategory = (categoryId, max = Infinity) => {
     return items.filter(item => item.category === categoryId).slice(0, max)
+  }
+
+  const getRandomItem = (arr) => {
+    return arr[Math.floor(Math.random() * arr.length)]
+  }
+
+  const itemsForMultipleCard = () => {
+    return categories.map(category => getRandomItem(filterItemByCategory(category.id)))
+  }
+
+  const itemForSingleCard = () => {
+    return getRandomItem(items)
   }
 
   return (
@@ -53,12 +65,14 @@ const Home = () => {
       <Navbar />
       <SearchBar items={searchItems} searchHandle={searchHandle} />
 
-      {(categories.length > 1 && items.length > 1) && categories.map(category => (
+      {/* {(categories.length > 1 && items.length > 1) && categories.map(category => (
         <Card key={category.id} items={filterItemByCategory(category.id, 4)} title={category.title} />
-      ))}
-      {(categories.length > 1 && items.length > 1) && categories.map(category => (
+      ))} */}
+      {/* <Card items={itemsForMultipleCard()} /> */}
+      <Card items={itemForSingleCard()} />
+      {/* {(categories.length > 1 && items.length > 1) && categories.map(category => (
         <MultiCarousel key={category.id} items={filterItemByCategory(category.id, 10)} title={category.title} />
-      ))}
+      ))} */}
     </div>
   )
 }
