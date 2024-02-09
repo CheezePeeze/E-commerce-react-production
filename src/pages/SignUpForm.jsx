@@ -90,7 +90,7 @@ const SignUpForm = () => {
 		<div className="container mx-auto px-4 py-4">
 			<form onSubmit={handleSubmit} className="max-w-md mx-auto">
 				<h3 className=" text-center">Choose type of Account</h3>
-				<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 p-4">
+				<div className="grid mb-3 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 p-4">
 					<label>
 						<input
 							onChange={checkUserHandler}
@@ -102,7 +102,7 @@ const SignUpForm = () => {
 						/>
 
 						<div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
-							<h2 className="font-medium text-gray-700">User</h2>
+							<h6 className=" text-gray-700">User</h6>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -130,7 +130,7 @@ const SignUpForm = () => {
 						/>
 
 						<div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
-							<h2 className="font-medium text-gray-700">Corporate</h2>
+							<h6 className=" text-gray-700">Corporate</h6>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -162,7 +162,7 @@ const SignUpForm = () => {
 						/>
 						<label
 							htmlFor="floating_first_name"
-							className="peer-focus: ml-2 font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+							className="peer-focus: ml-2 font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 						>
 							First name
 						</label>
@@ -180,7 +180,7 @@ const SignUpForm = () => {
 						/>
 						<label
 							htmlFor="floating_last_name"
-							className="peer-focus:font-medium ml-2 absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+							className="peer-focus:font-medium ml-2 absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 						>
 							Last name
 						</label>
@@ -199,13 +199,14 @@ const SignUpForm = () => {
 					/>
 					<label
 						htmlFor="floating_email"
-						className="peer-focus:font-medium ml-2 absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+						className="peer-focus:font-medium ml-2 absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 					>
 						Email address
 					</label>
 				</div>
 				<div className="relative z-0 w-full mb-5 group">
 					<input
+						autoComplete="off"
 						value={userStorage.password}
 						onChange={userHandleChange}
 						type="password"
@@ -217,13 +218,14 @@ const SignUpForm = () => {
 					/>
 					<label
 						htmlFor="floating_password"
-						className="peer-focus:font-medium absolute ml-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+						className="peer-focus:font-medium absolute ml-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 					>
 						Password
 					</label>
 				</div>
 				<div className="relative z-0 w-full mb-5 group">
 					<input
+						autoComplete="off"
 						value={userStorage.confirmPassword}
 						onChange={userHandleChange}
 						type="password"
@@ -235,7 +237,7 @@ const SignUpForm = () => {
 					/>
 					<label
 						htmlFor="floating_repeat_password"
-						className="peer-focus:font-medium absolute ml-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+						className="peer-focus:font-medium absolute ml-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 					>
 						Confirm password
 					</label>
@@ -256,7 +258,7 @@ const SignUpForm = () => {
 							/>
 							<label
 								htmlFor="phoneNumber"
-								className="peer-focus:font-medium absolute ml-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								className="peer-focus:font-medium absolute ml-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 							>
 								Phone number (123-456-7890)
 							</label>
@@ -274,13 +276,13 @@ const SignUpForm = () => {
 							/>
 							<label
 								htmlFor="companyName"
-								className="peer-focus:font-medium absolute ml-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								className="peer-focus:font-medium absolute ml-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 							>
 								Company Name (Ex. Google)
 							</label>
 						</div>
 						<div className="relative z-0 w-full mb-5 group">
-							<h3 className=" text-center">Company Address</h3>
+							<h4 className=" text-center">Company Address</h4>
 							<div className="relative z-0 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2 p-4">
 								<input
 									name="street"
