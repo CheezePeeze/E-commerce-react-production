@@ -61,18 +61,20 @@ const Home = () => {
   }
 
   return (
-    <div className='container mx-auto'>
-      <Navbar />
-      <SearchBar items={searchItems} searchHandle={searchHandle} />
+    <div className='black-background black-color'>
+      <div className='container mx-auto '>
+        <Navbar />
+        <SearchBar items={searchItems} searchHandle={searchHandle} />
 
-      {/* {(categories.length > 1 && items.length > 1) && categories.map(category => (
+        {/* {(categories.length > 1 && items.length > 1) && categories.map(category => (
         <Card key={category.id} items={filterItemByCategory(category.id, 4)} title={category.title} />
       ))} */}
-      {/* <Card items={itemsForMultipleCard()} /> */}
-      <Card items={itemForSingleCard()} />
-      {/* {(categories.length > 1 && items.length > 1) && categories.map(category => (
-        <MultiCarousel key={category.id} items={filterItemByCategory(category.id, 10)} title={category.title} />
-      ))} */}
+        <Card items={itemsForMultipleCard()} />
+        <Card items={itemForSingleCard()} />
+        {(categories.length > 1 && items.length > 1) && categories.map(category => (
+          <MultiCarousel key={category.id} items={filterItemByCategory(category.id, 10)} title={category.title} />
+        ))}
+      </div>
     </div>
   )
 }
