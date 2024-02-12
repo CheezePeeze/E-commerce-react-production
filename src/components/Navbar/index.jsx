@@ -14,7 +14,7 @@ const Navbar = () => {
     setAnchorEl(null);
   };
   return (
-    <div className=' flex justify-between items-center m-5'>
+    <div className=' flex justify-between items-center p-5'>
       <img src={logo} width={200} />
       <div>
         <img src={profileLogo} onClick={handleClick} className='rounded-full hover:bg-gray-300 ' width='40' />

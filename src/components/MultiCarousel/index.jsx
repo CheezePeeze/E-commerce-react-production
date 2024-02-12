@@ -2,6 +2,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import './MultiCarousel.css'
 import Rating from '@mui/material/Rating';
+import LazyLoad from 'react-lazy-load';
 
 const MultiCarousel = ({ items, title }) => {
   // console.log(process.env.BASIC_URL);
@@ -64,7 +65,9 @@ const MultiCarousel = ({ items, title }) => {
       >
         {items.map(item => (
           <div key={item.id} className='flex items-start flex-col'>
-            <img src={item.img} />
+            <LazyLoad>
+              <img src={item.img} />
+            </LazyLoad>
             <h5>{item.price} €</h5>
             <h6>{item.title}</h6>
             <span>{item.seller}</span>

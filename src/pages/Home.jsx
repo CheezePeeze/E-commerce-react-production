@@ -4,17 +4,27 @@ import MultiCarousel from '../components/MultiCarousel'
 import CardItem from '../components/Card'
 import axios from 'axios'
 import SearchBar from '../components/SearchBar'
-
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const Home = () => {
   const [searchItems, setSearchItems] = useState([])
   const [items, setItems] = useState([])
   const [categories, setCategories] = useState([])
+  const [isLoad, setIsLoad] = useState(true)
 
   useEffect(() => {
     getCategories()
     getItems()
   }, [])
+
+
+  useEffect(() => {
+    if (items.length) {
+      setIsLoad(false)
+    }
+
+  }, [items])
 
   const searchHandle = async () => {
     try {
@@ -61,10 +71,31 @@ const Home = () => {
   }
 
   return (
-    <div className='black-background black-color'>
+    <div className='black-background black-color min-h-screen'>
       <div className='container mx-auto '>
         <Navbar />
-        <SearchBar items={searchItems} searchHandle={searchHandle} />
+        {isLoad ?
+          (
+            <div className=' flex justify-center items-center min-h-56'>
+              <CircularProgress className='' />
+            </div>
+          )
+          : (
+            <>
+              <SearchBar items={searchItems} searchHandle={searchHandle} />
+              {(categories.length > 1 && items.length > 1) && categories.map(category => (
+                <div key={category.id}>
+                  <MultiCarousel items={filterItemByCategory(category.id, 10)} title={category.title} />
+                  <div className='grid grid-cols-3'>
+                    <CardItem item={itemForSingleCard()} />
+                    <CardItem item={itemForSingleCard()} />
+                    <CardItem item={itemForSingleCard()} />
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        {/* <SearchBar items={searchItems} searchHandle={searchHandle} />
         {(categories.length > 1 && items.length > 1) && categories.map(category => (
           <div key={category.id}>
             <MultiCarousel items={filterItemByCategory(category.id, 10)} title={category.title} />
@@ -74,7 +105,7 @@ const Home = () => {
               <CardItem item={itemForSingleCard()} />
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   )

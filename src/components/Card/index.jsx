@@ -3,6 +3,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import LazyLoad from 'react-lazy-load';
 
 const CardItem = ({ item }) => {
 
@@ -15,11 +16,13 @@ const CardItem = ({ item }) => {
       {item && (
         <Card sx={{ maxWidth: 305 }}>
           <CardActionArea>
-            <CardMedia
-              component="img"
-              image={item.img}
-              alt={item.title}
-            />
+            <LazyLoad >
+              <CardMedia
+                component="img"
+                image={item.img}
+                alt={item.title}
+              />
+            </LazyLoad>
             <CardContent>
               <Typography variant="h6" >
                 Just <span className='primary-color font-bold'>{item.price}€</span>
