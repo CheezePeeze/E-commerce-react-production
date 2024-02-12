@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import MultiCarousel from '../components/MultiCarousel'
-import Card from '../components/Card'
+import CardItem from '../components/Card'
 import axios from 'axios'
 import SearchBar from '../components/SearchBar'
 
@@ -65,19 +65,15 @@ const Home = () => {
       <div className='container mx-auto '>
         <Navbar />
         <SearchBar items={searchItems} searchHandle={searchHandle} />
-
-        {/* {(categories.length > 1 && items.length > 1) && categories.map(category => (
-        <Card key={category.id} items={filterItemByCategory(category.id, 4)} title={category.title} />
-      ))} */}
-        <Card items={itemsForMultipleCard()} />
-        <div className='grid grid-cols-3'>
-          <Card items={itemForSingleCard()} />
-          <Card items={itemForSingleCard()} />
-          <Card items={itemForSingleCard()} />
-        </div>
-
         {(categories.length > 1 && items.length > 1) && categories.map(category => (
-          <MultiCarousel key={category.id} items={filterItemByCategory(category.id, 10)} title={category.title} />
+          <div key={category.id}>
+            <MultiCarousel items={filterItemByCategory(category.id, 10)} title={category.title} />
+            <div className='grid grid-cols-3'>
+              <CardItem item={itemForSingleCard()} />
+              <CardItem item={itemForSingleCard()} />
+              <CardItem item={itemForSingleCard()} />
+            </div>
+          </div>
         ))}
       </div>
     </div>
