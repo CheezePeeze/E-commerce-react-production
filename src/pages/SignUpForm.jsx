@@ -39,34 +39,32 @@ const SignUpForm = () => {
 		index: '',
 	});
 	const userHandleChange = (event) => {
-		// console.log(event.target.value);
-
 		const { name, value } = event.target;
-		console.log(value);
 		let isValid = false;
 		switch (name) {
+			case 'firstName':
+				isValid = isAlpha(value)
+				break;
+			case 'lastName':
+				isValid = isAlpha(value)
+				break;
 			case 'email':
-				
-				
-				break;
-		
-			default:
+				isValid = isEmail(value)
 				break;
 		}
-		if (name === 'password') {
-			isValid = isStrongPassword(value);
-			console.log(isValid);
-		}
-
-		setUserStorage((prevUserStorage) => ({
-			...prevUserStorage,
-			[name]: value,
-		}));
+		requiredInputHandler(name, value, isValid, userStorage[name].error)
 	};
+
+	const requiredInputHandler = (name, value, valid, error) => {
+		setUserStorage(prevUserStorage => ({
+			...prevUserStorage,
+			[name]: { value, valid, error }
+		}))
+	}
 
 	const corporateHandleChange = (event) => {
 		const { name, value } = event.target;
-		console.log(value);
+		// console.log(value);
 		setCorporateStorage((prevCorporateStorage) => ({
 			...prevCorporateStorage,
 			[name]: value,
@@ -74,7 +72,7 @@ const SignUpForm = () => {
 	};
 	const addressHandleChange = (event) => {
 		let { name, value } = event.target;
-		console.log(name);
+		// console.log(name);
 		if (name === 'index') {
 			if (isNaN(+value)) {
 				value = value.replace(/[^0-9]/g, '');
@@ -91,7 +89,7 @@ const SignUpForm = () => {
 	const checkUserHandler = () => {
 		setIsCorporate(false);
 	};
-	console.log(isCorporate);
+	// console.log(isCorporate);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
