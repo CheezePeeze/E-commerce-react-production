@@ -70,7 +70,12 @@ const Home = () => {
         <Card key={category.id} items={filterItemByCategory(category.id, 4)} title={category.title} />
       ))} */}
         <Card items={itemsForMultipleCard()} />
-        <Card items={itemForSingleCard()} />
+        <div className='grid grid-cols-3'>
+          <Card items={itemForSingleCard()} />
+          <Card items={itemForSingleCard()} />
+          <Card items={itemForSingleCard()} />
+        </div>
+
         {(categories.length > 1 && items.length > 1) && categories.map(category => (
           <MultiCarousel key={category.id} items={filterItemByCategory(category.id, 10)} title={category.title} />
         ))}

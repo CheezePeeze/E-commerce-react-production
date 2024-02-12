@@ -17,20 +17,21 @@ const CardItem = ({ item = {} }) => {
         <CardActionArea>
           <CardMedia
             component="img"
-            height="50"
-            image="https://source.unsplash.com/random/150x150?sig=1"
-            alt="green iguana"
+            image={item.img}
+            alt={item.title}
           />
           <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              Just <b>{item.price}€</b>
+            <Typography variant="h6" >
+              Just <span className='primary-color font-bold'>{item.price}€</span>
             </Typography>
-            <Typography gutterBottom component="div">
+            <Typography >
               Last price <span className='line-through'>{lastPrice()}€</span>
             </Typography>
+            <Typography gutterBottom >
+              <span className='font-bold'>{item.title}</span>
+            </Typography>
             <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over 6,000
-              species, ranging across all continents except Antarctica
+              {item.description}
             </Typography>
           </CardContent>
         </CardActionArea>
