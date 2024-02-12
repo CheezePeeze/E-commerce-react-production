@@ -3,6 +3,7 @@ import 'react-multi-carousel/lib/styles.css';
 import './MultiCarousel.css'
 import Rating from '@mui/material/Rating';
 import LazyLoad from 'react-lazy-load';
+import { Link } from 'react-router-dom';
 
 const MultiCarousel = ({ items, title }) => {
   // console.log(process.env.BASIC_URL);
@@ -64,7 +65,7 @@ const MultiCarousel = ({ items, title }) => {
         slidesToSlide={5}
       >
         {items.map(item => (
-          <div key={item.id} className='flex items-start flex-col'>
+          <Link to={`/product/${item.id}`} key={item.id} className='flex items-start flex-col'>
             <LazyLoad>
               <img src={item.img} />
             </LazyLoad>
@@ -72,7 +73,7 @@ const MultiCarousel = ({ items, title }) => {
             <h6>{item.title}</h6>
             <span>{item.seller}</span>
             <Rating name="half-rating-read" defaultValue={item.rating} precision={0.1} readOnly />
-          </div>
+          </Link>
         ))}
       </Carousel>
     </div>

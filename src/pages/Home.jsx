@@ -4,8 +4,8 @@ import MultiCarousel from '../components/MultiCarousel'
 import CardItem from '../components/Card'
 import axios from 'axios'
 import SearchBar from '../components/SearchBar'
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import CircularProgressBar from '../components/CircularProgressBar'
+
 
 const Home = () => {
   const [searchItems, setSearchItems] = useState([])
@@ -62,10 +62,6 @@ const Home = () => {
     return arr[Math.floor(Math.random() * arr.length)]
   }
 
-  const itemsForMultipleCard = () => {
-    return categories.map(category => getRandomItem(filterItemByCategory(category.id)))
-  }
-
   const itemForSingleCard = () => {
     return getRandomItem(items)
   }
@@ -75,11 +71,7 @@ const Home = () => {
       <div className='container mx-auto '>
         <Navbar />
         {isLoad ?
-          (
-            <div className=' flex justify-center items-center min-h-56'>
-              <CircularProgress className='' />
-            </div>
-          )
+          <CircularProgressBar />
           : (
             <>
               <SearchBar items={searchItems} searchHandle={searchHandle} />
