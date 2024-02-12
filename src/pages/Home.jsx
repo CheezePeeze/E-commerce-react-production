@@ -87,17 +87,6 @@ const Home = () => {
               ))}
             </>
           )}
-        {/* <SearchBar items={searchItems} searchHandle={searchHandle} />
-        {(categories.length > 1 && items.length > 1) && categories.map(category => (
-          <div key={category.id}>
-            <MultiCarousel items={filterItemByCategory(category.id, 10)} title={category.title} />
-            <div className='grid grid-cols-3'>
-              <CardItem item={itemForSingleCard()} />
-              <CardItem item={itemForSingleCard()} />
-              <CardItem item={itemForSingleCard()} />
-            </div>
-          </div>
-        ))} */}
       </div>
     </div>
   )
