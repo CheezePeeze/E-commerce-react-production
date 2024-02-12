@@ -1,18 +1,31 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { isEmail, isStrongPassword, isAlpha } from 'validator';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpForm = () => {
 	const [isCorporate, setIsCorporate] = useState(false);
-	const [inputValue, setInputValue] = useState('');
-	const [test, setTest] = useState();
+	const [isErrorMessage, setIsErrorMessage] = useState('');
 	const navigate = useNavigate();
 
 	const [userStorage, setUserStorage] = useState({
-		firstName: '',
-		lastName: '',
-		email: '',
-		password: '',
+		firstName: {
+			value: '',
+			valid: false,
+			error: 'Name must contain only letters*',
+		},
+		lastName: {
+			value: '',
+			valid: false,
+			error: 'Name must contain only letters*',
+		},
+		email: { value: '', valid: false, error: 'Incorrect email' },
+		password: {
+			value: '',
+			valid: false,
+			error:
+				'Password must contain at least 1 capital letter and be  min. length 8 ',
+		},
 		confirmPassword: '',
 		isCorporate: isCorporate,
 	});
@@ -27,13 +40,30 @@ const SignUpForm = () => {
 	});
 	const userHandleChange = (event) => {
 		// console.log(event.target.value);
+
 		const { name, value } = event.target;
 		console.log(value);
+		let isValid = false;
+		switch (name) {
+			case 'email':
+				
+				
+				break;
+		
+			default:
+				break;
+		}
+		if (name === 'password') {
+			isValid = isStrongPassword(value);
+			console.log(isValid);
+		}
+
 		setUserStorage((prevUserStorage) => ({
 			...prevUserStorage,
 			[name]: value,
 		}));
 	};
+
 	const corporateHandleChange = (event) => {
 		const { name, value } = event.target;
 		console.log(value);
@@ -152,7 +182,7 @@ const SignUpForm = () => {
 					<div className="relative z-0 w-full mb-5 group">
 						<input
 							onChange={userHandleChange}
-							value={userStorage.firstName}
+							value={userStorage.firstName.value}
 							name="firstName"
 							type="text"
 							id="floating_first_name"
@@ -169,7 +199,7 @@ const SignUpForm = () => {
 					</div>
 					<div className="relative z-0 w-full mb-5 group">
 						<input
-							value={userStorage.lastName}
+							value={userStorage.lastName.value}
 							onChange={userHandleChange}
 							type="text"
 							name="lastName"
@@ -188,7 +218,7 @@ const SignUpForm = () => {
 				</div>
 				<div className="relative z-0 w-full mb-5 group">
 					<input
-						value={userStorage.email}
+						value={userStorage.email.value}
 						onChange={userHandleChange}
 						type="email"
 						name="email"
@@ -207,7 +237,7 @@ const SignUpForm = () => {
 				<div className="relative z-0 w-full mb-5 group">
 					<input
 						autoComplete="off"
-						value={userStorage.password}
+						value={userStorage.password.value}
 						onChange={userHandleChange}
 						type="password"
 						name="password"
