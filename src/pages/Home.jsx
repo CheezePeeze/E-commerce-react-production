@@ -5,6 +5,8 @@ import CardItem from '../components/Card'
 import axios from 'axios'
 import SearchBar from '../components/SearchBar'
 import CircularProgressBar from '../components/CircularProgressBar'
+import { getProductsFakeStoreApi, getProductsDummyApi, getProductsByQueryDummyApi } from '../common/api'
+import { UNIQ_ID } from '../common/constants'
 
 
 const Home = () => {
@@ -17,6 +19,7 @@ const Home = () => {
     getCategories()
     getItems()
   }, [])
+  // console.log(import.meta.env.VITE_SPOON_KEY);
 
 
   useEffect(() => {
@@ -26,45 +29,83 @@ const Home = () => {
 
   }, [items])
 
-  const searchHandle = async () => {
-    try {
-      const { data } = await axios.get('https://json-server-shop.adaptable.app/items');
-      const newArr = data.map(item => ({ ...item, label: item.title }));
-      setSearchItems(newArr);
-    } catch (error) {
-      console.error("Error fetching searchHandle:", error);
-    }
+  const searchHandle = (e) => {
+    getProductsFakeStoreApi().then(res => {
+      setSearchItems([
+        ...res.data
+          .filter(item => item.title.toLowerCase().includes(e.target.value))
+          .map(item => ({
+            ...item,
+            id: item.id + UNIQ_ID,
+            rating: item.rating.rate,
+            stock: item.rating.count,
+            thumbnail: item.image,
+            images: [item.image],
+            shop: 1,
+            label: item.title
+          }))
+      ])
+    });
+    getProductsByQueryDummyApi(e.target.value).then(res => {
+      console.log(res.data);
+      // console.log(...res.data.map(item => ({
+      //   ...item,
+      //   label: item.title
+      // })));
+      setSearchItems(prev => [...prev, ...res.data.products.map(item => ({
+        ...item,
+        label: item.title
+      }))])
+    })
   }
 
-  const getCategories = async () => {
-    try {
-      const { data } = await axios.get('https://json-server-shop.adaptable.app/categories');
-      setCategories(data);
-    } catch (error) {
-      console.error("Error fetching getCategories:", error);
-    }
+
+
+  const getCategories = () => {
+
   }
 
-  const getItems = async () => {
-    try {
-      const { data } = await axios.get(`https://json-server-shop.adaptable.app/items?category=${1}&category=${2}&category=${3}&category=${4}`);
-      setItems(prev => [...prev, ...data]);
-    } catch (error) {
-      console.error("Error fetching getItems:", error);
-    }
+
+  const getItems = () => {
+    setItems(() => [1, 2])
+    // getProductsFakeStoreApi().then(res => {
+    //   setItems(prev => [...prev, ...res.data.map(item => ({
+    //     ...item,
+    //     id: item.id + UNIQ_ID,
+    //     rating: item.rating.rate,
+    //     stock: item.rating.count,
+    //     thumbnail: item.image,
+    //     images: [item.image],
+    //     shop: 1
+    //   }))])
+    // })
+
+    // getProductsDummyApi().then(res => {
+    //   console.log(res);
+    //   setItems(prev => [...prev, ...res.data.products.map(item => ({
+    //     ...item,
+    //     shop: 2
+    //   }))])
+    // })
   }
 
-  const filterItemByCategory = (categoryId, max = Infinity) => {
-    return items.filter(item => item.category === categoryId).slice(0, max)
-  }
 
-  const getRandomItem = (arr) => {
-    return arr[Math.floor(Math.random() * arr.length)]
-  }
 
-  const itemForSingleCard = () => {
-    return getRandomItem(items)
-  }
+  // console.log(items);
+  console.log(searchItems);
+
+
+  // const filterItemByCategory = (categoryId, max = Infinity) => {
+  //   return items.filter(item => item.category === categoryId).slice(0, max)
+  // }
+
+  // const getRandomItem = (arr) => {
+  //   return arr[Math.floor(Math.random() * arr.length)]
+  // }
+
+  // const itemForSingleCard = () => {
+  //   return getRandomItem(items)
+  // }
 
   return (
     <div className='black-background black-color min-h-screen'>
@@ -75,7 +116,9 @@ const Home = () => {
           : (
             <>
               <SearchBar items={searchItems} searchHandle={searchHandle} />
-              {(categories.length > 1 && items.length > 1) && categories.map(category => (
+              {/* <MultiCarousel items={filterItemByCategory(category.id, 10)} title={category.title} /> */}
+
+              {/* {(categories.length > 1 && items.length > 1) && categories.map(category => (
                 <div key={category.id}>
                   <MultiCarousel items={filterItemByCategory(category.id, 10)} title={category.title} />
                   <div className='grid grid-cols-3'>
@@ -84,7 +127,7 @@ const Home = () => {
                     <CardItem item={itemForSingleCard()} />
                   </div>
                 </div>
-              ))}
+              ))} */}
             </>
           )}
       </div>

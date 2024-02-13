@@ -13,7 +13,7 @@ const SearchBar = ({ items, searchHandle }) => {
         sx={{ width: '85%' }}
         renderInput={(params) => <TextField {...params} label="Search" />}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        onInputChange={() => searchHandle()}
+        onKeyDown={(event) => event.key === 'Enter' && searchHandle(event)}
       />
     </div>
   );
