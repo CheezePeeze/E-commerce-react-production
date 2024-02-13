@@ -1,7 +1,7 @@
 const BASIC_URL = 'https://json-server-shop.adaptable.app/'
 const FAKE_STORE_API = 'https://fakestoreapi.com'
 const DUMMY_API = 'https://dummyjson.com'
-const UNIQ_ID = 100
+const UNIQ_ID = 1000
 const SHOPS = {
   1: 'FakeStore',
   2: 'Dummy'

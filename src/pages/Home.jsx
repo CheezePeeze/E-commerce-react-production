@@ -5,7 +5,7 @@ import CardItem from '../components/Card'
 import axios from 'axios'
 import SearchBar from '../components/SearchBar'
 import CircularProgressBar from '../components/CircularProgressBar'
-import { getProductsFakeStoreApi, getProductsDummyApi, getProductsByQueryDummyApi } from '../common/api'
+import { getProductsFakeStoreApi, getProductsDummyApi, getProductsByQueryDummyApi, getAllProductsByQuery } from '../common/api'
 import { UNIQ_ID } from '../common/constants'
 
 
@@ -26,45 +26,30 @@ const Home = () => {
     if (items.length) {
       setIsLoad(false)
     }
-
   }, [items])
 
   const searchHandle = (e) => {
-    getProductsFakeStoreApi().then(res => {
-      setSearchItems([
-        ...res.data
-          .filter(item => item.title.toLowerCase().includes(e.target.value))
-          .map(item => ({
+    getAllProductsByQuery(e.target.value)
+      .then((res) => {
+        setSearchItems([
+          ...res[0].data
+            .filter(item => item.title.toLowerCase().includes(e.target.value))
+            .map(item => ({
+              ...item,
+              id: item.id + UNIQ_ID,
+              rating: item.rating.rate,
+              stock: item.rating.count,
+              thumbnail: item.image,
+              images: [item.image],
+              shop: 1
+            })),
+          ...res[1].data.products.map(item => ({
             ...item,
-            id: item.id + UNIQ_ID,
-            rating: item.rating.rate,
-            stock: item.rating.count,
-            thumbnail: item.image,
-            images: [item.image],
-            shop: 1,
-            label: item.title
+            shop: 2
           }))
-      ])
-    });
-    getProductsByQueryDummyApi(e.target.value).then(res => {
-      console.log(res.data);
-      // console.log(...res.data.map(item => ({
-      //   ...item,
-      //   label: item.title
-      // })));
-      setSearchItems(prev => [...prev, ...res.data.products.map(item => ({
-        ...item,
-        label: item.title
-      }))])
-    })
+        ])
+      })
   }
-
-
-
-  const getCategories = () => {
-
-  }
-
 
   const getItems = () => {
     setItems(() => [1, 2])
@@ -81,7 +66,6 @@ const Home = () => {
     // })
 
     // getProductsDummyApi().then(res => {
-    //   console.log(res);
     //   setItems(prev => [...prev, ...res.data.products.map(item => ({
     //     ...item,
     //     shop: 2
@@ -92,7 +76,14 @@ const Home = () => {
 
 
   // console.log(items);
-  console.log(searchItems);
+
+  const getItemsByCategory = () => {
+
+  }
+
+  const getCategories = () => {
+
+  }
 
 
   // const filterItemByCategory = (categoryId, max = Infinity) => {
@@ -115,7 +106,7 @@ const Home = () => {
           <CircularProgressBar />
           : (
             <>
-              <SearchBar items={searchItems} searchHandle={searchHandle} />
+              <SearchBar options={searchItems} searchHandle={searchHandle} />
               {/* <MultiCarousel items={filterItemByCategory(category.id, 10)} title={category.title} /> */}
 
               {/* {(categories.length > 1 && items.length > 1) && categories.map(category => (
