@@ -18,9 +18,29 @@ const getAllProductsByQuery = (query) => {
   return axios.all([getProductsFakeStoreApi(), getProductsByQueryDummyApi(query)])
 }
 
+const getCategoriesFakeStoreApi = () => {
+  return axios.get(`${FAKE_STORE_API}/products/categories`);
+}
+
+const getCategoriesDummyApi = () => {
+  return axios.get(`${DUMMY_API}/products/categories`);
+}
+
+const getCategoryByQueryFakeStoreApi = (category) => {
+  return axios.get(`${FAKE_STORE_API}/products/category/${category}`);
+}
+
+const getCategoryByQueryDummyApi = (category) => {
+  return axios.get(`${DUMMY_API}/products/category/${category}`);
+}
+
 export {
   getProductsFakeStoreApi,
   getProductsDummyApi,
   getProductsByQueryDummyApi,
-  getAllProductsByQuery
+  getAllProductsByQuery,
+  getCategoriesFakeStoreApi,
+  getCategoriesDummyApi,
+  getCategoryByQueryFakeStoreApi,
+  getCategoryByQueryDummyApi
 }

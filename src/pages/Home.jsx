@@ -5,18 +5,20 @@ import CardItem from '../components/Card'
 import axios from 'axios'
 import SearchBar from '../components/SearchBar'
 import CircularProgressBar from '../components/CircularProgressBar'
-import { getProductsFakeStoreApi, getProductsDummyApi, getProductsByQueryDummyApi, getAllProductsByQuery } from '../common/api'
+import { getProductsFakeStoreApi, getProductsDummyApi, getProductsByQueryDummyApi, getAllProductsByQuery, getCategoriesFakeStoreApi, getCategoriesDummyApi, getCategoryByQueryFakeStoreApi } from '../common/api'
 import { UNIQ_ID } from '../common/constants'
 
 
 const Home = () => {
   const [searchItems, setSearchItems] = useState([])
   const [items, setItems] = useState([])
-  const [categories, setCategories] = useState([])
+  const [itemsForCard, setItemsForCard] = useState([])
+  const [itemsForCarousel, setItemsForCarousel] = useState([])
   const [isLoad, setIsLoad] = useState(true)
 
   useEffect(() => {
-    getCategories()
+    // getCategories()
+    getDataToCard()
     getItems()
   }, [])
   // console.log(import.meta.env.VITE_SPOON_KEY);
@@ -77,11 +79,20 @@ const Home = () => {
 
   // console.log(items);
 
-  const getItemsByCategory = () => {
+  const getDataToCard = async () => {
+
+    const { data: arrOfMinCategories } = await getCategoriesFakeStoreApi()
+    const t = arrOfMinCategories.slice(0, 4).map(async (category) => {
+      return { data } = await getCategoryByQueryFakeStoreApi(category)
+    })
+
+    console.log(t);
+    // getCategoriesDummyApi().then(res => res.data[Math.floor(Math.random() * res.data.length)])
 
   }
 
-  const getCategories = () => {
+  const getDataToCarousel = async () => {
+    const { data: category } = await getCategoriesDummyApi().then(res => res.data[Math.floor(Math.random() * res.data.length)])
 
   }
 
