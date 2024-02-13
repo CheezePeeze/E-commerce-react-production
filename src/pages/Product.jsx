@@ -1,225 +1,376 @@
+/*
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    theme: {
+      extend: {
+        gridTemplateRows: {
+          '[auto,auto,1fr]': 'auto auto 1fr',
+        },
+      },
+    },
+    plugins: [
+      // ...
+      require('@tailwindcss/aspect-ratio'),
+    ],
+  }
+  ```
+*/
+import { useState } from 'react';
+import { StarIcon } from '@heroicons/react/20/solid';
+import { RadioGroup } from '@headlessui/react';
 
-import React from 'react'
-import { Link } from 'react-router-dom'
+const product = {
+	name: 'Basic Tee 6-Pack',
+	price: '$192',
+	href: '#',
+	breadcrumbs: [
+		{ id: 1, name: 'Men', href: '#' },
+		{ id: 2, name: 'Clothing', href: '#' },
+	],
+	images: [
+		{
+			src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
+			alt: 'Two each of gray, white, and black shirts laying flat.',
+		},
+		{
+			src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
+			alt: 'Model wearing plain black basic tee.',
+		},
+		{
+			src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
+			alt: 'Model wearing plain gray basic tee.',
+		},
+		{
+			src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
+			alt: 'Model wearing plain white basic tee.',
+		},
+	],
+	colors: [
+		{ name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+		{ name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
+		{ name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
+	],
+	sizes: [
+		{ name: 'XXS', inStock: false },
+		{ name: 'XS', inStock: true },
+		{ name: 'S', inStock: true },
+		{ name: 'M', inStock: true },
+		{ name: 'L', inStock: true },
+		{ name: 'XL', inStock: true },
+		{ name: '2XL', inStock: true },
+		{ name: '3XL', inStock: true },
+	],
+	description:
+		'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
+	highlights: [
+		'Hand cut and sewn locally',
+		'Dyed with our proprietary colors',
+		'Pre-washed & pre-shrunk',
+		'Ultra-soft 100% cotton',
+	],
+	details:
+		'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
+};
+const reviews = { href: '#', average: 4, totalCount: 117 };
 
-const Product = () => {
-  return (
-    <div className="bg-gray-100 dark:bg-gray-800 py-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row -mx-4">
-          <div className="md:flex-1 px-4">
-            <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
-              <img className="w-full h-full object-cover" src="https://cdn.pixabay.com/photo/2020/05/22/17/53/mockup-5206355_960_720.jpg" alt="Product Image" />
-            </div>
-            <div className="flex -mx-2 mb-4">
-              <div className="w-1/2 px-2">
-                <button className="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">Add to Cart</button>
-              </div>
-              <div className="w-1/2 px-2">
-                <button className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">Add to Wishlist</button>
-              </div>
-            </div>
-          </div>
-          <div className="md:flex-1 px-4">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Product Name</h2>
-            <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed
-              ante justo. Integer euismod libero id mauris malesuada tincidunt.
-            </p>
-            <div className="flex mb-4">
-              <div className="mr-4">
-                <span className="font-bold text-gray-700 dark:text-gray-300">Price:</span>
-                <span className="text-gray-600 dark:text-gray-300">$29.99</span>
-              </div>
-              <div>
-                <span className="font-bold text-gray-700 dark:text-gray-300">Availability:</span>
-                <span className="text-gray-600 dark:text-gray-300">In Stock</span>
-              </div>
-            </div>
-            <div className="mb-4">
-              <span className="font-bold text-gray-700 dark:text-gray-300">Select Color:</span>
-              <div className="flex items-center mt-2">
-                <button className="w-6 h-6 rounded-full bg-gray-800 dark:bg-gray-200 mr-2"></button>
-                <button className="w-6 h-6 rounded-full bg-red-500 dark:bg-red-700 mr-2"></button>
-                <button className="w-6 h-6 rounded-full bg-blue-500 dark:bg-blue-700 mr-2"></button>
-                <button className="w-6 h-6 rounded-full bg-yellow-500 dark:bg-yellow-700 mr-2"></button>
-              </div>
-            </div>
-            <div className="mb-4">
-              <span className="font-bold text-gray-700 dark:text-gray-300">Select Size:</span>
-              <div className="flex items-center mt-2">
-                <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">S</button>
-                <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">M</button>
-                <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">L</button>
-                <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">XL</button>
-                <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">XXL</button>
-              </div>
-            </div>
-            <div>
-              <span className="font-bold text-gray-700 dark:text-gray-300">Product Description:</span>
-              <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                sed ante justo. Integer euismod libero id mauris malesuada tincidunt. Vivamus commodo nulla ut
-                lorem rhoncus aliquet. Duis dapibus augue vel ipsum pretium, et venenatis sem blandit. Quisque
-                ut erat vitae nisi ultrices placerat non eget velit. Integer ornare mi sed ipsum lacinia, non
-                sagittis mauris blandit. Morbi fermentum libero vel nisl suscipit, nec tincidunt mi consectetur.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+function classNames(...classes) {
+	return classes.filter(Boolean).join(' ');
 }
 
-export default Product
+export default function Example() {
+	const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+	const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
 
-// import React, { useState } from "react";
+	return (
+		<div className="bg-white">
+			<div className="pt-6">
+				<nav aria-label="Breadcrumb">
+					<ol
+						role="list"
+						className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
+					>
+						{product.breadcrumbs.map((breadcrumb) => (
+							<li key={breadcrumb.id}>
+								<div className="flex items-center">
+									<a
+										href={breadcrumb.href}
+										className="mr-2 text-sm font-medium text-gray-900"
+									>
+										{breadcrumb.name}
+									</a>
+									<svg
+										width={16}
+										height={20}
+										viewBox="0 0 16 20"
+										fill="currentColor"
+										aria-hidden="true"
+										className="h-5 w-4 text-gray-300"
+									>
+										<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+									</svg>
+								</div>
+							</li>
+						))}
+						<li className="text-sm">
+							<a
+								href={product.href}
+								aria-current="page"
+								className="font-medium text-gray-500 hover:text-gray-600"
+							>
+								{product.name}
+							</a>
+						</li>
+					</ol>
+				</nav>
 
-// const Product = () => {
-//     const [show, setShow] = useState(false);
-//     const [show2, setShow2] = useState(false);
+				{/* Image gallery */}
+				<div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+					<div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
+						<img
+							src={product.images[0].src}
+							alt={product.images[0].alt}
+							className="h-full w-full object-cover object-center"
+						/>
+					</div>
+					<div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+						<div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+							<img
+								src={product.images[1].src}
+								alt={product.images[1].alt}
+								className="h-full w-full object-cover object-center"
+							/>
+						</div>
+						<div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+							<img
+								src={product.images[2].src}
+								alt={product.images[2].alt}
+								className="h-full w-full object-cover object-center"
+							/>
+						</div>
+					</div>
+					<div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
+						<img
+							src={product.images[3].src}
+							alt={product.images[3].alt}
+							className="h-full w-full object-cover object-center"
+						/>
+					</div>
+				</div>
 
-//     return (
-//         <div className="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4">
-//             <div className="xl:w-2/6 lg:w-2/5 w-80 md:block hidden">
-//                 <img className="w-full" alt="img of a girl posing" src="https://i.ibb.co/QMdWfzX/component-image-one.png" />
-//                 <img className="mt-6 w-full" alt="img of a girl posing" src="https://i.ibb.co/qxkRXSq/component-image-two.png" />
-//             </div>
-//             <div className="md:hidden">
-//                 <img className="w-full" alt="img of a girl posing" src="https://i.ibb.co/QMdWfzX/component-image-one.png" />
-//                 <div className="flex items-center justify-between mt-3 space-x-4 md:space-x-0">
-//                     <img alt="img-tag-one" className="md:w-48 md:h-48 w-full" src="https://i.ibb.co/cYDrVGh/Rectangle-245.png" />
-//                     <img alt="img-tag-one" className="md:w-48 md:h-48 w-full" src="https://i.ibb.co/f17NXrW/Rectangle-244.png" />
-//                     <img alt="img-tag-one" className="md:w-48 md:h-48 w-full" src="https://i.ibb.co/cYDrVGh/Rectangle-245.png" />
-//                     <img alt="img-tag-one" className="md:w-48 md:h-48 w-full" src="https://i.ibb.co/f17NXrW/Rectangle-244.png" />
-//                 </div>
-//             </div>
-//             <div className="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6">
-//                 <div className="border-b border-gray-200 pb-6">
-//                     <p className="text-sm leading-none text-gray-600">Balenciaga Fall Collection</p>
-//                     <h1
-//                         className="
-// 							lg:text-2xl
-// 							text-xl
-// 							font-semibold
-// 							lg:leading-6
-// 							leading-7
-// 							text-gray-800
-// 							mt-2
-// 						"
-//                     >
-//                         Balenciaga Signature Sweatshirt
-//                     </h1>
-//                 </div>
-//                 <div className="py-4 border-b border-gray-200 flex items-center justify-between">
-//                     <p className="text-base leading-4 text-gray-800">Colours</p>
-//                     <div className="flex items-center justify-center">
-//                         <p className="text-sm leading-none text-gray-600">Smoke Blue with red accents</p>
-//                         <div
-//                             className="
-// 								w-6
-// 								h-6
-// 								bg-gradient-to-b
-// 								from-gray-900
-// 								to-indigo-500
-// 								ml-3
-// 								mr-4
-// 								cursor-pointer
-// 							"
-//                         ></div>
-//                         <svg className="cursor-pointer" width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-//                             <path d="M1 1L5 5L1 9" stroke="#4B5563" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-//                         </svg>
-//                     </div>
-//                 </div>
-//                 <div className="py-4 border-b border-gray-200 flex items-center justify-between">
-//                     <p className="text-base leading-4 text-gray-800">Size</p>
-//                     <div className="flex items-center justify-center">
-//                         <p className="text-sm leading-none text-gray-600 mr-3">38.2</p>
-//                         <svg className="cursor-pointer" width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-//                             <path d="M1 1L5 5L1 9" stroke="#4B5563" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-//                         </svg>
-//                     </div>
-//                 </div>
-//                 <button
-//                     className="
-// 						focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800
-// 						text-base
-// 						flex
-// 						items-center
-// 						justify-center
-// 						leading-none
-// 						text-white
-// 						bg-gray-800
-// 						w-full
-// 						py-4
-// 						hover:bg-gray-700
-// 					"
-//                 >
-//                     <svg className="mr-3" width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-//                         <path d="M7.02301 7.18999C7.48929 6.72386 7.80685 6.12992 7.93555 5.48329C8.06425 4.83666 7.9983 4.16638 7.74604 3.55724C7.49377 2.94809 7.06653 2.42744 6.51835 2.06112C5.97016 1.6948 5.32566 1.49928 4.66634 1.49928C4.00703 1.49928 3.36252 1.6948 2.81434 2.06112C2.26615 2.42744 1.83891 2.94809 1.58665 3.55724C1.33439 4.16638 1.26843 4.83666 1.39713 5.48329C1.52583 6.12992 1.8434 6.72386 2.30968 7.18999L4.66634 9.54749L7.02301 7.18999Z" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-//                         <path d="M4.66699 4.83333V4.84166" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-//                         <path d="M13.69 13.8567C14.1563 13.3905 14.4738 12.7966 14.6025 12.15C14.7312 11.5033 14.6653 10.8331 14.413 10.2239C14.1608 9.61476 13.7335 9.09411 13.1853 8.72779C12.6372 8.36148 11.9926 8.16595 11.3333 8.16595C10.674 8.16595 10.0295 8.36148 9.48133 8.72779C8.93314 9.09411 8.5059 9.61476 8.25364 10.2239C8.00138 10.8331 7.93543 11.5033 8.06412 12.15C8.19282 12.7966 8.51039 13.3905 8.97667 13.8567L11.3333 16.2142L13.69 13.8567Z" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-//                         <path d="M11.333 11.5V11.5083" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-//                     </svg>
-//                     Check availability in store
-//                 </button>
-//                 <div>
-//                     <p className="xl:pr-48 text-base lg:leading-tight leading-normal text-gray-600 mt-7">It is a long established fact that a reader will be distracted by thereadable content of a page when looking at its layout. The point of usingLorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
-//                     <p className="text-base leading-4 mt-7 text-gray-600">Product Code: 8BN321AF2IF0NYA</p>
-//                     <p className="text-base leading-4 mt-4 text-gray-600">Length: 13.2 inches</p>
-//                     <p className="text-base leading-4 mt-4 text-gray-600">Height: 10 inches</p>
-//                     <p className="text-base leading-4 mt-4 text-gray-600">Depth: 5.1 inches</p>
-//                     <p className="md:w-96 text-base leading-normal text-gray-600 mt-4">Composition: 100% calf leather, inside: 100% lamb leather</p>
-//                 </div>
-//                 <div>
-//                     <div className="border-t border-b py-4 mt-7 border-gray-200">
-//                         <div onClick={() => setShow(!show)} className="flex justify-between items-center cursor-pointer">
-//                             <p className="text-base leading-4 text-gray-800">Shipping and returns</p>
-//                             <button
-//                                 className="
-// 									cursor-pointer
-// 									focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400
-// 									rounded
-// 								"
-//                                 aria-label="show or hide"
-//                             >
-//                                 <svg className={"transform " + (show ? "rotate-180" : "rotate-0")} width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-//                                     <path d="M9 1L5 5L1 1" stroke="#4B5563" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-//                                 </svg>
-//                             </button>
-//                         </div>
-//                         <div className={"pt-4 text-base leading-normal pr-12 mt-4 text-gray-600 " + (show ? "block" : "hidden")} id="sect">
-//                             You will be responsible for paying for your own shipping costs for returning your item. Shipping costs are nonrefundable
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div>
-//                     <div className="border-b py-4 border-gray-200">
-//                         <div onClick={() => setShow2(!show2)} className="flex justify-between items-center cursor-pointer">
-//                             <p className="text-base leading-4 text-gray-800">Contact us</p>
-//                             <button
-//                                 className="
-// 									cursor-pointer
-// 									focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400
-// 									rounded
-// 								"
-//                                 aria-label="show or hide"
-//                             >
-//                                 <svg className={"transform " + (show2 ? "rotate-180" : "rotate-0")} width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-//                                     <path d="M9 1L5 5L1 1" stroke="#4B5563" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-//                                 </svg>
-//                             </button>
-//                         </div>
-//                         <div className={"pt-4 text-base leading-normal pr-12 mt-4 text-gray-600 " + (show2 ? "block" : "hidden")} id="sect">
-//                             If you have any questions on how to return your item to us, contact us.
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
+				{/* Product info */}
+				<div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+					<div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+						<h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+							{product.name}
+						</h1>
+					</div>
 
-// export default Product;
+					{/* Options */}
+					<div className="mt-4 lg:row-span-3 lg:mt-0">
+						<h2 className="sr-only">Product information</h2>
+						<p className="text-3xl tracking-tight text-gray-900">
+							{product.price}
+						</p>
+
+						{/* Reviews */}
+						<div className="mt-6">
+							<h3 className="sr-only">Reviews</h3>
+							<div className="flex items-center">
+								<div className="flex items-center">
+									{[0, 1, 2, 3, 4].map((rating) => (
+										<StarIcon
+											key={rating}
+											className={classNames(
+												reviews.average > rating
+													? 'text-gray-900'
+													: 'text-gray-200',
+												'h-5 w-5 flex-shrink-0'
+											)}
+											aria-hidden="true"
+										/>
+									))}
+								</div>
+								<p className="sr-only">{reviews.average} out of 5 stars</p>
+								<a
+									href={reviews.href}
+									className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+								>
+									{reviews.totalCount} reviews
+								</a>
+							</div>
+						</div>
+
+						<form className="mt-10">
+							{/* Colors */}
+							<div>
+								<h3 className="text-sm font-medium text-gray-900">Color</h3>
+
+								<RadioGroup
+									value={selectedColor}
+									onChange={setSelectedColor}
+									className="mt-4"
+								>
+									<RadioGroup.Label className="sr-only">
+										Choose a color
+									</RadioGroup.Label>
+									<div className="flex items-center space-x-3">
+										{product.colors.map((color) => (
+											<RadioGroup.Option
+												key={color.name}
+												value={color}
+												className={({ active, checked }) =>
+													classNames(
+														color.selectedClass,
+														active && checked ? 'ring ring-offset-1' : '',
+														!active && checked ? 'ring-2' : '',
+														'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none'
+													)
+												}
+											>
+												<RadioGroup.Label as="span" className="sr-only">
+													{color.name}
+												</RadioGroup.Label>
+												<span
+													aria-hidden="true"
+													className={classNames(
+														color.class,
+														'h-8 w-8 rounded-full border border-black border-opacity-10'
+													)}
+												/>
+											</RadioGroup.Option>
+										))}
+									</div>
+								</RadioGroup>
+							</div>
+
+							{/* Sizes */}
+							<div className="mt-10">
+								<div className="flex items-center justify-between">
+									<h3 className="text-sm font-medium text-gray-900">Size</h3>
+									<a
+										href="#"
+										className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+									>
+										Size guide
+									</a>
+								</div>
+
+								<RadioGroup
+									value={selectedSize}
+									onChange={setSelectedSize}
+									className="mt-4"
+								>
+									<RadioGroup.Label className="sr-only">
+										Choose a size
+									</RadioGroup.Label>
+									<div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
+										{product.sizes.map((size) => (
+											<RadioGroup.Option
+												key={size.name}
+												value={size}
+												disabled={!size.inStock}
+												className={({ active }) =>
+													classNames(
+														size.inStock
+															? 'cursor-pointer bg-white text-gray-900 shadow-sm'
+															: 'cursor-not-allowed bg-gray-50 text-gray-200',
+														active ? 'ring-2 ring-indigo-500' : '',
+														'group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6'
+													)
+												}
+											>
+												{({ active, checked }) => (
+													<>
+														<RadioGroup.Label as="span">
+															{size.name}
+														</RadioGroup.Label>
+														{size.inStock ? (
+															<span
+																className={classNames(
+																	active ? 'border' : 'border-2',
+																	checked
+																		? 'border-indigo-500'
+																		: 'border-transparent',
+																	'pointer-events-none absolute -inset-px rounded-md'
+																)}
+																aria-hidden="true"
+															/>
+														) : (
+															<span
+																aria-hidden="true"
+																className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
+															>
+																<svg
+																	className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
+																	viewBox="0 0 100 100"
+																	preserveAspectRatio="none"
+																	stroke="currentColor"
+																>
+																	<line
+																		x1={0}
+																		y1={100}
+																		x2={100}
+																		y2={0}
+																		vectorEffect="non-scaling-stroke"
+																	/>
+																</svg>
+															</span>
+														)}
+													</>
+												)}
+											</RadioGroup.Option>
+										))}
+									</div>
+								</RadioGroup>
+							</div>
+
+							<button
+								type="submit"
+								className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+							>
+								Add to bag
+							</button>
+						</form>
+					</div>
+
+					<div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+						{/* Description and details */}
+						<div>
+							<h3 className="sr-only">Description</h3>
+
+							<div className="space-y-6">
+								<p className="text-base text-gray-900">{product.description}</p>
+							</div>
+						</div>
+
+						<div className="mt-10">
+							<h3 className="text-sm font-medium text-gray-900">Highlights</h3>
+
+							<div className="mt-4">
+								<ul role="list" className="list-disc space-y-2 pl-4 text-sm">
+									{product.highlights.map((highlight) => (
+										<li key={highlight} className="text-gray-400">
+											<span className="text-gray-600">{highlight}</span>
+										</li>
+									))}
+								</ul>
+							</div>
+						</div>
+
+						<div className="mt-10">
+							<h2 className="text-sm font-medium text-gray-900">Details</h2>
+
+							<div className="mt-4 space-y-6">
+								<p className="text-sm text-gray-600">{product.details}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
