@@ -1,27 +1,29 @@
 /*
-  This example requires some changes to your config:
+	This example requires some changes to your config:
   
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    theme: {
-      extend: {
-        gridTemplateRows: {
-          '[auto,auto,1fr]': 'auto auto 1fr',
-        },
-      },
-    },
-    plugins: [
-      // ...
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
+	```
+	// tailwind.config.js
+	module.exports = {
+		// ...
+		theme: {
+			extend: {
+				gridTemplateRows: {
+					'[auto,auto,1fr]': 'auto auto 1fr',
+				},
+			},
+		},
+		plugins: [
+			// ...
+			require('@tailwindcss/aspect-ratio'),
+		],
+	}
+	```
 */
 import { useState } from 'react';
 import { StarIcon } from '@heroicons/react/20/solid';
 import { RadioGroup } from '@headlessui/react';
+import Navbar from '../components/Navbar';
+import Carousel from 'react-multi-carousel';
 
 const product = {
 	name: 'Basic Tee 6-Pack',
@@ -86,92 +88,20 @@ export default function Example() {
 	const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
 
 	return (
-		<div className="bg-white">
-			<div className="pt-6">
-				<nav aria-label="Breadcrumb">
-					<ol
-						role="list"
-						className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-					>
-						{product.breadcrumbs.map((breadcrumb) => (
-							<li key={breadcrumb.id}>
-								<div className="flex items-center">
-									<a
-										href={breadcrumb.href}
-										className="mr-2 text-sm font-medium text-gray-900"
-									>
-										{breadcrumb.name}
-									</a>
-									<svg
-										width={16}
-										height={20}
-										viewBox="0 0 16 20"
-										fill="currentColor"
-										aria-hidden="true"
-										className="h-5 w-4 text-gray-300"
-									>
-										<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-									</svg>
-								</div>
-							</li>
-						))}
-						<li className="text-sm">
-							<a
-								href={product.href}
-								aria-current="page"
-								className="font-medium text-gray-500 hover:text-gray-600"
-							>
-								{product.name}
-							</a>
-						</li>
-					</ol>
-				</nav>
-
-				{/* Image gallery */}
-				<div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-					<div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-						<img
-							src={product.images[0].src}
-							alt={product.images[0].alt}
-							className="h-full w-full object-cover object-center"
-						/>
-					</div>
-					<div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-						<div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-							<img
-								src={product.images[1].src}
-								alt={product.images[1].alt}
-								className="h-full w-full object-cover object-center"
-							/>
-						</div>
-						<div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-							<img
-								src={product.images[2].src}
-								alt={product.images[2].alt}
-								className="h-full w-full object-cover object-center"
-							/>
-						</div>
-					</div>
-					<div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-						<img
-							src={product.images[3].src}
-							alt={product.images[3].alt}
-							className="h-full w-full object-cover object-center"
-						/>
-					</div>
-				</div>
-
+		<div className="bg-white container mx-auto ">
+			<Navbar />
+			<div>
 				{/* Product info */}
-				<div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+				<div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-8">
 					<div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-						<h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-							{product.name}
-						</h1>
+
 					</div>
 
 					{/* Options */}
 					<div className="mt-4 lg:row-span-3 lg:mt-0">
-						<h2 className="sr-only">Product information</h2>
+						<h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl pb-5">
+							{product.name}
+						</h1>
 						<p className="text-3xl tracking-tight text-gray-900">
 							{product.price}
 						</p>
@@ -337,8 +267,107 @@ export default function Example() {
 						</form>
 					</div>
 
-					<div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+					<div className="py-5 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-0">
 						{/* Description and details */}
+
+						<Carousel
+							additionalTransfrom={0}
+							arrows
+							autoPlaySpeed={3000}
+							centerMode={false}
+							// className=" max-h-96 "
+							className=" mb-5 "
+							containerClass="container"
+							dotListClass=""
+							draggable
+							focusOnSelect={false}
+							infinite
+							itemClass=""
+							keyBoardControl
+							minimumTouchDrag={80}
+							pauseOnHover
+							renderArrowsWhenDisabled={false}
+							renderButtonGroupOutside={false}
+							renderDotsOutside={false}
+							responsive={{
+								desktop: {
+									breakpoint: {
+										max: 3000,
+										min: 1024
+									},
+									items: 1
+								},
+								mobile: {
+									breakpoint: {
+										max: 464,
+										min: 0
+									},
+									items: 1
+								},
+								tablet: {
+									breakpoint: {
+										max: 1024,
+										min: 464
+									},
+									items: 1
+								}
+							}}
+							rewind={false}
+							rewindWithAnimation={false}
+							rtl={false}
+							shouldResetAutoplay
+							showDots
+							sliderClass=""
+							slidesToSlide={1}
+							swipeable
+						>
+							<img
+								src="https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+								style={{
+									display: 'block',
+									height: '100%',
+									margin: 'auto',
+									width: '100%'
+								}}
+							/>
+							<img
+								src="https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
+								style={{
+									display: 'block',
+									height: '100%',
+									margin: 'auto',
+									width: '100%'
+								}}
+							/>
+							<img
+								src="https://images.unsplash.com/photo-1550133730-695473e544be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+								style={{
+									display: 'block',
+									height: '100%',
+									margin: 'auto',
+									width: '100%'
+								}}
+							/>
+							<img
+								src="https://images.unsplash.com/photo-1550167164-1b67c2be3973?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+								style={{
+									display: 'block',
+									height: '100%',
+									margin: 'auto',
+									width: '100%'
+								}}
+							/>
+							<img
+								src="https://images.unsplash.com/photo-1550338861-b7cfeaf8ffd8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+								style={{
+									display: 'block',
+									height: '100%',
+									margin: 'auto',
+									width: '100%'
+								}}
+							/>
+						</Carousel>
+
 						<div>
 							<h3 className="sr-only">Description</h3>
 
