@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { ERRORS_SIGN_UP } from '../common/constants';
-import { isEmail, isStrongPassword, isAlpha } from 'validator';
+import { isEmail, isNumeric, isStrongPassword, isAlpha } from 'validator';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpForm = () => {
@@ -28,23 +28,60 @@ const SignUpForm = () => {
 			valid: false,
 		},
 		isCorporate: isCorporate,
+		corporateStorage: {
+			phoneNumber: {
+				valid: false,
+			},
+			companyName: {
+				value: '',
+				valid: false,
+			},
+			address: {
+				street: {
+					value: '',
+					valid: false,
+				},
+				index: {
+					value: '',
+					valid: false,
+				},
+				city: {
+					value: '',
+					valid: false,
+				},
+			},
+		},
 	});
-	const [corporateStorage, setCorporateStorage] = useState({
-		phoneNumber: '',
-		companyName: '',
-	});
-	const [addressStorage, setAddressStorage] = useState({
-		street: '',
-		city: '',
-		index: '',
-	});
+	// const [corporateStorage, setCorporateStorage] = useState({
+	// 	phoneNumber: {
+	// 		value: '',
+	// 		valid: false,
+	// 	},
+	// 	companyName: {
+	// 		value: '',
+	// 		valid: false,
+	// 	},
+	// });
+	// const [addressStorage, setAddressStorage] = useState({
+	// 	street: {
+	// 		value: '',
+	// 		valid: false,
+	// 	},
+	// 	city: {
+	// 		value: '',
+	// 		valid: false,
+	// 	},
+	// 	index: {
+	// 		value: '',
+	// 		valid: false,
+	// 	},
+	// });
 	const userHandleChange = (event) => {
 		const { name, value } = event.target;
 		let isValid = false;
+
 		switch (name) {
 			case 'firstName':
-				isValid = isAlpha(value);
-				break;
 			case 'lastName':
 				isValid = isAlpha(value);
 				break;
@@ -52,43 +89,92 @@ const SignUpForm = () => {
 				isValid = isEmail(value);
 				break;
 			case 'password':
-				isValid = isStrongPassword(value);
-				break;
 			case 'confirmPassword':
 				isValid = isStrongPassword(value);
 				break;
+			case 'phoneNumber':
+			case 'companyName':
+				isValid = isAlpha(value);
+				break;
+			case 'index':
+				isValid = isNumeric(value);
+				break;
 		}
 		requiredInputHandler(name, value, isValid);
+		console.log('name:', name, 'value:', value);
 	};
-
 	const requiredInputHandler = (name, value, valid) => {
-		setUserStorage((prevUserStorage) => ({
-			...prevUserStorage,
-			[name]: { value, valid },
-		}));
-	};
-
-	const corporateHandleChange = (event) => {
-		const { name, value } = event.target;
-		// console.log(value);
-		setCorporateStorage((prevCorporateStorage) => ({
-			...prevCorporateStorage,
-			[name]: value,
-		}));
-	};
-	const addressHandleChange = (event) => {
-		let { name, value } = event.target;
-		// console.log(name);
 		if (name === 'index') {
 			if (isNaN(+value)) {
 				value = value.replace(/[^0-9]/g, '');
 			}
 		}
-		setAddressStorage((prevAddressStorage) => ({
-			...prevAddressStorage,
-			[name]: value,
-		}));
+		if (name === 'isCorporate') {
+			setIsCorporate(!isCorporate);
+		} else {
+			setUserStorage((prevUserStorage) => ({
+				...prevUserStorage,
+				[name]: { value, valid },
+				corporateStorage: {
+					...prevUserStorage.corporateStorage,
+					[name]: { value, valid },
+					address: {
+						...prevUserStorage.corporateStorage.address,
+						[name]: { value, valid },
+					},
+				},
+			}));
+		}
 	};
+	// setCorporateStorage((prevCorporateStorage) => ({
+	// 	...prevCorporateStorage,
+	// 	[name]: { value, valid },
+	// }));
+	// setAddressStorage((prevAddressStorage) => ({
+	// 	...prevAddressStorage,
+	// 	[name]: { value, valid },
+	// }));
+
+	// const corporateHandleChange = (event) => {
+	// 	const { name, value } = event.target;
+	// 	// console.log(value);
+	// 	let isValid = false;
+	// 	switch (name) {
+	// 		case 'phoneNumber':
+	// 			isValid = isNumeric(value);
+	// 			break;
+	// 		case 'companyName':
+	// 			isValid = isAlpha(value);
+	// 		default:
+	// 			break;
+	// 	}
+	// 	requiredInputHandler(name, value, isValid);
+
+	// };
+	// const addressHandleChange = (event) => {
+	// 	let { name, value } = event.target;
+	// 	// console.log(name);
+	// 	if (name === 'index') {
+	// 		if (isNaN(+value)) {
+	// 			value = value.replace(/[^0-9]/g, '');
+	// 		}
+	// 	}
+	// 	let isValid = false;
+	// 	switch (name) {
+	// 		case 'street':
+	// 			isValid = isAlpha(value);
+	// 			break;
+
+	// 		case 'index':
+	// 			isValid = isNumeric(value);
+	// 			break;
+
+	// 		case 'city':
+	// 			isValid = isAlpha(value);
+	// 			break;
+	// 	}
+	// 	requiredInputHandler(name, value, isValid);
+	// };
 	const checkCorporateHandler = () => {
 		setIsCorporate(true);
 	};
@@ -103,22 +189,29 @@ const SignUpForm = () => {
 			console.log({
 				...userStorage,
 				corporateInfo: {
-					...corporateStorage,
-					companyAddress: { ...addressStorage },
+					phoneNumber: userStorage.corporateStorage.phoneNumber.value,
+					companyName: userStorage.corporateStorage.companyName.value,
+					address: {
+						street: userStorage.corporateStorage.address.street.value,
+						index: userStorage.corporateStorage.address.index.value,
+						city: userStorage.corporateStorage.address.city.value,
+					},
+					// Add other fields if needed
 				},
 			});
 		} else {
-			// setErrorMessage(
-			// Object.keys(userStorage)
-			// 	.map((key) => userStorage[key])
-			// 	.find((el) => !el.valid)
-			// );
 			console.log({ ...userStorage });
 			setErrorMessage(
 				ERRORS_SIGN_UP[
-					Object.keys(userStorage)
-						// .map((key) => userStorage[key])
-						.find((el) => !userStorage[el].valid)
+					Object.keys(userStorage).find((el) => {
+						console.log(el);
+						if (el === 'corporateStorage') {
+							return !Object.keys(userStorage[el]).every(
+								(subEl) => userStorage[el][subEl].valid
+							);
+						}
+						return !userStorage[el].valid;
+					})
 				]
 			);
 		}
@@ -293,8 +386,8 @@ const SignUpForm = () => {
 						<div className="relative z-0 w-full mb-5 group">
 							<div className="relative z-0 w-full mb-5 group">
 								<input
-									value={corporateStorage.phoneNumber}
-									onChange={corporateHandleChange}
+									value={userStorage.corporateStorage.phoneNumber.value}
+									onChange={userHandleChange}
 									type="tel"
 									pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
 									name="phoneNumber"
@@ -312,8 +405,8 @@ const SignUpForm = () => {
 							</div>
 							<div className="relative z-0 w-full mb-5 group">
 								<input
-									value={corporateStorage.companyName}
-									onChange={corporateHandleChange}
+									value={userStorage.corporateStorage.companyName.value}
+									onChange={userHandleChange}
 									type="text"
 									name="companyName"
 									id="floating_company"
@@ -333,8 +426,8 @@ const SignUpForm = () => {
 								<div className="relative z-0 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2 p-4">
 									<input
 										name="street"
-										value={addressStorage.street}
-										onChange={addressHandleChange}
+										value={userStorage.corporateStorage.address.street.value}
+										onChange={userHandleChange}
 										className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 										placeholder="Street"
 										type="text"
@@ -342,8 +435,8 @@ const SignUpForm = () => {
 
 									<input
 										name="index"
-										value={addressStorage.index}
-										onChange={addressHandleChange}
+										value={userStorage.corporateStorage.address.index.value}
+										onChange={userHandleChange}
 										className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 										placeholder="Index"
 										type="text"
@@ -352,8 +445,8 @@ const SignUpForm = () => {
 
 									<input
 										name="city"
-										value={addressStorage.city}
-										onChange={addressHandleChange}
+										value={userStorage.corporateStorage.address.city.value}
+										onChange={userHandleChange}
 										className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 										placeholder="City"
 										type="text"
