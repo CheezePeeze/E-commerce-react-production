@@ -44,6 +44,7 @@ import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon } from '@heroicons/react/24/outline';
 import profileSimple from '../../assets/profile-simple.svg';
+import { Link } from 'react-router-dom';
 const navigation = [];
 
 function classNames(...classes) {
@@ -58,11 +59,13 @@ export default function Example() {
 					<div className="relative flex h-16 items-center justify-between">
 						<div className="flex items-center justify-center sm:items-stretch sm:justify-start">
 							<div className="flex flex-shrink-0 items-center">
+                <Link to='/'>
 								<img
 									className="h-8 w-auto"
 									src="https://docs.material-tailwind.com/img/logo-ct-dark.png"
 									alt="Your Company"
 								/>
+                </Link>
 							</div>
 							<div className="hidden sm:ml-6 sm:block"></div>
 						</div>
