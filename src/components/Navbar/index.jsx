@@ -72,7 +72,7 @@ export default function Example() {
 						<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 							<button
 								type="button"
-								className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+								className="relative rounded-full p-1 text-gray-400 hover:text-black focus:outline-none"
 							>
 								<span className="absolute -inset-1.5" />
 								<span className="sr-only">View notifications</span>
@@ -82,7 +82,7 @@ export default function Example() {
 							{/* Profile dropdown */}
 							<Menu as="div" className="relative ml-3">
 								<div>
-									<Menu.Button className="relative flex rounded-full  text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+									<Menu.Button className="relative flex rounded-full  text-sm focus:outline-none">
 										<span className="absolute -inset-1.5" />
 										<span className="sr-only">Open user menu</span>
 										<img
@@ -117,15 +117,17 @@ export default function Example() {
 										</Menu.Item>
 										<Menu.Item>
 											{({ active }) => (
-												<a
-													href="#"
-													className={classNames(
-														active ? 'bg-gray-100' : '',
-														'block px-4 py-2 text-sm text-gray-700'
-													)}
-												>
-													Settings
-												</a>
+												<Link to="/sign-up">
+													<a
+														href="#"
+														className={classNames(
+															active ? 'bg-gray-100' : '',
+															'block px-4 py-2 text-sm text-gray-700'
+														)}
+													>
+														Sign up
+													</a>
+												</Link>
 											)}
 										</Menu.Item>
 										<Menu.Item>
