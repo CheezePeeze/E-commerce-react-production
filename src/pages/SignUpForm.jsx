@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ERRORS_SIGN_UP } from '../common/constants';
 import { isEmail, isNumeric, isStrongPassword, isAlpha } from 'validator';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,7 @@ const SignUpForm = () => {
 		isCorporate: isCorporate,
 		corporateStorage: {
 			phoneNumber: {
+				value: '',
 				valid: false,
 			},
 			companyName: {
@@ -101,7 +102,6 @@ const SignUpForm = () => {
 				break;
 		}
 		requiredInputHandler(name, value, isValid);
-		console.log('name:', name, 'value:', value);
 	};
 	const requiredInputHandler = (name, value, valid) => {
 		if (name === 'index') {
@@ -109,22 +109,18 @@ const SignUpForm = () => {
 				value = value.replace(/[^0-9]/g, '');
 			}
 		}
-		if (name === 'isCorporate') {
-			setIsCorporate(!isCorporate);
-		} else {
-			setUserStorage((prevUserStorage) => ({
-				...prevUserStorage,
+		setUserStorage((prevUserStorage) => ({
+			...prevUserStorage,
+			[name]: { value, valid },
+			corporateStorage: {
+				...prevUserStorage.corporateStorage,
 				[name]: { value, valid },
-				corporateStorage: {
-					...prevUserStorage.corporateStorage,
+				address: {
+					...prevUserStorage.corporateStorage.address,
 					[name]: { value, valid },
-					address: {
-						...prevUserStorage.corporateStorage.address,
-						[name]: { value, valid },
-					},
 				},
-			}));
-		}
+			},
+		}));
 	};
 	// setCorporateStorage((prevCorporateStorage) => ({
 	// 	...prevCorporateStorage,
@@ -177,9 +173,81 @@ const SignUpForm = () => {
 	// };
 	const checkCorporateHandler = () => {
 		setIsCorporate(true);
+		setUserStorage({
+			firstName: {
+				value: '',
+			},
+			lastName: {
+				value: '',
+			},
+			email: {
+				value: '',
+			},
+			password: {
+				value: '',
+			},
+			confirmPassword: {
+				value: '',
+			},
+			corporateStorage: {
+				phoneNumber: {
+					value: '',
+				},
+				companyName: {
+					value: '',
+				},
+				address: {
+					city: {
+						value: '',
+					},
+					street: {
+						value: '',
+					},
+					index: {
+						value: '',
+					},
+				},
+			},
+		});
 	};
 	const checkUserHandler = () => {
 		setIsCorporate(false);
+		setUserStorage({
+			firstName: {
+				value: '',
+			},
+			lastName: {
+				value: '',
+			},
+			email: {
+				value: '',
+			},
+			password: {
+				value: '',
+			},
+			confirmPassword: {
+				value: '',
+			},
+			corporateStorage: {
+				phoneNumber: {
+					value: '',
+				},
+				companyName: {
+					value: '',
+				},
+				address: {
+					city: {
+						value: '',
+					},
+					street: {
+						value: '',
+					},
+					index: {
+						value: '',
+					},
+				},
+			},
+		});
 	};
 	// console.log(isCorporate);
 
@@ -188,23 +256,22 @@ const SignUpForm = () => {
 		if (isCorporate) {
 			console.log({
 				...userStorage,
-				corporateInfo: {
-					phoneNumber: userStorage.corporateStorage.phoneNumber.value,
-					companyName: userStorage.corporateStorage.companyName.value,
-					address: {
-						street: userStorage.corporateStorage.address.street.value,
-						index: userStorage.corporateStorage.address.index.value,
-						city: userStorage.corporateStorage.address.city.value,
-					},
-					// Add other fields if needed
-				},
+				// corporateInfo: {
+				// 	phoneNumber: userStorage.corporateStorage.phoneNumber.value,
+				// 	companyName: userStorage.corporateStorage.companyName.value,
+				// 	address: {
+				// 		street: userStorage.corporateStorage.address.street.value,
+				// 		index: userStorage.corporateStorage.address.index.value,
+				// 		city: userStorage.corporateStorage.address.city.value,
+				// 	},
+				// 	// Add other fields if needed
+				// },
 			});
 		} else {
 			console.log({ ...userStorage });
 			setErrorMessage(
 				ERRORS_SIGN_UP[
 					Object.keys(userStorage).find((el) => {
-						console.log(el);
 						if (el === 'corporateStorage') {
 							return !Object.keys(userStorage[el]).every(
 								(subEl) => userStorage[el][subEl].valid
@@ -223,6 +290,7 @@ const SignUpForm = () => {
 		// 	},
 		// });
 	};
+
 	// console.log(`form submitted=> ${}`);
 
 	return (
