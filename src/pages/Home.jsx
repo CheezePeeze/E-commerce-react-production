@@ -83,8 +83,8 @@ const Home = () => {
 
   return (
     <div className='black-background black-color min-h-screen'>
-      <div className='container mx-auto '>
         <Navbar />
+      <div className='container mx-auto my-5 '>
         {isLoad ?
           <CircularProgressBar />
           : (
