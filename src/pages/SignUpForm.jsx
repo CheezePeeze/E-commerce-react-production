@@ -121,7 +121,9 @@ const SignUpForm = () => {
 				},
 			},
 		}));
+	
 	};
+	console.log(userStorage);
 	// setCorporateStorage((prevCorporateStorage) => ({
 	// 	...prevCorporateStorage,
 	// 	[name]: { value, valid },
@@ -173,81 +175,11 @@ const SignUpForm = () => {
 	// };
 	const checkCorporateHandler = () => {
 		setIsCorporate(true);
-		setUserStorage({
-			firstName: {
-				value: '',
-			},
-			lastName: {
-				value: '',
-			},
-			email: {
-				value: '',
-			},
-			password: {
-				value: '',
-			},
-			confirmPassword: {
-				value: '',
-			},
-			corporateStorage: {
-				phoneNumber: {
-					value: '',
-				},
-				companyName: {
-					value: '',
-				},
-				address: {
-					city: {
-						value: '',
-					},
-					street: {
-						value: '',
-					},
-					index: {
-						value: '',
-					},
-				},
-			},
-		});
+	
 	};
 	const checkUserHandler = () => {
 		setIsCorporate(false);
-		setUserStorage({
-			firstName: {
-				value: '',
-			},
-			lastName: {
-				value: '',
-			},
-			email: {
-				value: '',
-			},
-			password: {
-				value: '',
-			},
-			confirmPassword: {
-				value: '',
-			},
-			corporateStorage: {
-				phoneNumber: {
-					value: '',
-				},
-				companyName: {
-					value: '',
-				},
-				address: {
-					city: {
-						value: '',
-					},
-					street: {
-						value: '',
-					},
-					index: {
-						value: '',
-					},
-				},
-			},
-		});
+	
 	};
 	// console.log(isCorporate);
 
