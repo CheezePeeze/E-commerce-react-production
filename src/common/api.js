@@ -5,6 +5,12 @@ import { FAKE_STORE_API, DUMMY_API } from "./constants";
 const getProductsFakeStoreApi = () => {
   return axios.get(`${FAKE_STORE_API}/products`);
 }
+const getProductByIdFakeStoreApi = (product) => {
+  return axios.get(`${FAKE_STORE_API}/products/${product}`);
+}
+const getProductByIdDummyApi = (product) => {
+  return axios.get(`${DUMMY_API}/products/${product}`);
+}
 
 const getProductsDummyApi = () => {
   return axios.get(`${DUMMY_API}/products`);
@@ -42,5 +48,7 @@ export {
   getCategoriesFakeStoreApi,
   getCategoriesDummyApi,
   getCategoryByQueryFakeStoreApi,
-  getCategoryByQueryDummyApi
+  getCategoryByQueryDummyApi,
+  getProductByIdFakeStoreApi,
+  getProductByIdDummyApi
 }

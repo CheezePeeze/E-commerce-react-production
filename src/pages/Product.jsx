@@ -1,31 +1,13 @@
-/*
-	This example requires some changes to your config:
-  
-	```
-	// tailwind.config.js
-	module.exports = {
-		// ...
-		theme: {
-			extend: {
-				gridTemplateRows: {
-					'[auto,auto,1fr]': 'auto auto 1fr',
-				},
-			},
-		},
-		plugins: [
-			// ...
-			require('@tailwindcss/aspect-ratio'),
-		],
-	}
-	```
-*/
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StarIcon } from '@heroicons/react/20/solid';
 import { RadioGroup } from '@headlessui/react';
 import Navbar from '../components/Navbar';
 import Carousel from 'react-multi-carousel';
+import { useParams } from 'react-router-dom';
+import { getProductByIdDummyApi, getProductByIdFakeStoreApi } from '../common/api';
+import { Rating } from '@mui/material';
 
-const product = {
+const productTest = {
 	name: 'Basic Tee 6-Pack',
 	price: '$192',
 	href: '#',
@@ -35,19 +17,19 @@ const product = {
 	],
 	images: [
 		{
-			src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
+			src: 'https://tailwindui.com/img/ecommerce-images/productTest-page-02-secondary-productTest-shot.jpg',
 			alt: 'Two each of gray, white, and black shirts laying flat.',
 		},
 		{
-			src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
+			src: 'https://tailwindui.com/img/ecommerce-images/productTest-page-02-tertiary-productTest-shot-01.jpg',
 			alt: 'Model wearing plain black basic tee.',
 		},
 		{
-			src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
+			src: 'https://tailwindui.com/img/ecommerce-images/productTest-page-02-tertiary-productTest-shot-02.jpg',
 			alt: 'Model wearing plain gray basic tee.',
 		},
 		{
-			src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
+			src: 'https://tailwindui.com/img/ecommerce-images/productTest-page-02-featured-productTest-shot.jpg',
 			alt: 'Model wearing plain white basic tee.',
 		},
 	],
@@ -77,21 +59,68 @@ const product = {
 	details:
 		'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
 };
-const reviews = { href: '#', average: 4, totalCount: 117 };
+const reviews = { href: '#', average: 2.2, totalCount: 117 };
+
+const colors = [
+	{ name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+	{ name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
+	{ name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
+]
+
+const sizes = [
+	{ name: 'XXS', inStock: false },
+	{ name: 'XS', inStock: true },
+	{ name: 'S', inStock: true },
+	{ name: 'M', inStock: true },
+	{ name: 'L', inStock: true },
+	{ name: 'XL', inStock: true },
+	{ name: '2XL', inStock: true },
+	{ name: '3XL', inStock: true },
+]
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
 }
 
 export default function Example() {
-	const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-	const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+	const [selectedColor, setSelectedColor] = useState(colors[0]);
+	const [selectedSize, setSelectedSize] = useState(sizes[2]);
 
+	const [product, setProduct] = useState([])
+	const { company: companyId, id } = useParams()
+
+
+	useEffect(() => {
+		if (Number(companyId) === 1) {
+			// getProductByIdFakeStoreApi(companyId).then(res => console.log(res.data))
+			getProductByIdFakeStoreApi(id).then(res => {
+				setProduct({
+					...res.data,
+					id: res.data.id,
+					rating: res.data.rating.rate,
+					stock: res.data.rating.count,
+					thumbnail: res.data.image,
+					images: [res.data.image],
+					shop: 1
+				})
+			})
+		}
+		else {
+			getProductByIdDummyApi(id).then(res => {
+				setProduct({
+					...res.data,
+					shop: 2
+				})
+			})
+		}
+	}, [companyId])
+
+	console.log(product);
 	return (
 		<div className="bg-white container mx-auto ">
 			<Navbar />
 			<div>
-				{/* Product info */}
+				{/* productTest info */}
 				<div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-8">
 					<div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
 
@@ -100,10 +129,10 @@ export default function Example() {
 					{/* Options */}
 					<div className="mt-4 lg:row-span-3 lg:mt-0">
 						<h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl pb-5">
-							{product.name}
+							{product.title}
 						</h1>
 						<p className="text-3xl tracking-tight text-gray-900">
-							{product.price}
+							{product.price}€
 						</p>
 
 						{/* Reviews */}
@@ -111,7 +140,7 @@ export default function Example() {
 							<h3 className="sr-only">Reviews</h3>
 							<div className="flex items-center">
 								<div className="flex items-center">
-									{[0, 1, 2, 3, 4].map((rating) => (
+									{/* {[0, 1, 2, 3, 4].map((rating) => (
 										<StarIcon
 											key={rating}
 											className={classNames(
@@ -122,15 +151,16 @@ export default function Example() {
 											)}
 											aria-hidden="true"
 										/>
-									))}
+									))} */}
+									{product.rating && <Rating name="half-rating-read" defaultValue={product.rating} precision={0.1} readOnly />}
+
 								</div>
-								<p className="sr-only">{reviews.average} out of 5 stars</p>
-								<a
+								{/* <a
 									href={reviews.href}
 									className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-								>
-									{reviews.totalCount} reviews
-								</a>
+								> */}
+								{reviews.totalCount} reviews
+								{/* </a> */}
 							</div>
 						</div>
 
@@ -148,7 +178,7 @@ export default function Example() {
 										Choose a color
 									</RadioGroup.Label>
 									<div className="flex items-center space-x-3">
-										{product.colors.map((color) => (
+										{colors.map((color) => (
 											<RadioGroup.Option
 												key={color.name}
 												value={color}
@@ -198,7 +228,7 @@ export default function Example() {
 										Choose a size
 									</RadioGroup.Label>
 									<div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-										{product.sizes.map((size) => (
+										{sizes.map((size) => (
 											<RadioGroup.Option
 												key={size.name}
 												value={size}
@@ -372,7 +402,7 @@ export default function Example() {
 							<h3 className="sr-only">Description</h3>
 
 							<div className="space-y-6">
-								<p className="text-base text-gray-900">{product.description}</p>
+								<p className="text-base text-gray-900">{productTest.description}</p>
 							</div>
 						</div>
 
@@ -381,7 +411,7 @@ export default function Example() {
 
 							<div className="mt-4">
 								<ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-									{product.highlights.map((highlight) => (
+									{productTest.highlights.map((highlight) => (
 										<li key={highlight} className="text-gray-400">
 											<span className="text-gray-600">{highlight}</span>
 										</li>
@@ -394,7 +424,7 @@ export default function Example() {
 							<h2 className="text-sm font-medium text-gray-900">Details</h2>
 
 							<div className="mt-4 space-y-6">
-								<p className="text-sm text-gray-600">{product.details}</p>
+								<p className="text-sm text-gray-600">{productTest.details}</p>
 							</div>
 						</div>
 					</div>

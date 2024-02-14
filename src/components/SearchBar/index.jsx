@@ -2,11 +2,14 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UNIQ_ID } from '../../common/constants';
 
 const SearchBar = ({ options, searchHandle }) => {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([])
   const loading = open && items.length === 0;
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!options.length) {
@@ -14,6 +17,11 @@ const SearchBar = ({ options, searchHandle }) => {
     }
     setItems(options)
   }, [options])
+
+  const onTagsChange = (product) => {
+    const id = product.shop === 1 ? product.id - UNIQ_ID : product.id
+    navigate(`/product/${product.shop}/${id}`);
+  }
 
   return (
     <div className='flex justify-center'>
@@ -37,6 +45,8 @@ const SearchBar = ({ options, searchHandle }) => {
             searchHandle(event)
           }
         }}
+        name={'34'}
+        onChange={(_, value) => onTagsChange(value)}
         renderInput={(params) => (
           <TextField
             {...params}
