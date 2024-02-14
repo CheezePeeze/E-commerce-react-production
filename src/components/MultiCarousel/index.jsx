@@ -5,13 +5,14 @@ import Rating from '@mui/material/Rating';
 import LazyLoad from 'react-lazy-load';
 import { Link } from 'react-router-dom';
 
-const MultiCarousel = ({ items, title }) => {
+const MultiCarousel = ({ items }) => {
   // console.log(process.env.BASIC_URL);
+
   return (
     <div className='my-10'>
-      <div className='border-b-2'>
-        {title}
-      </div>
+      {/* <div className='border-b-2'>
+        qwe
+      </div> */}
       <Carousel
         additionalTransfrom={0}
         arrows={true}
@@ -23,7 +24,6 @@ const MultiCarousel = ({ items, title }) => {
         draggable
         focusOnSelect={false}
         infinite
-        itemClass=""
         keyBoardControl
         minimumTouchDrag={80}
         pauseOnHover
@@ -65,9 +65,10 @@ const MultiCarousel = ({ items, title }) => {
         slidesToSlide={5}
       >
         {items.map(item => (
-          <Link to={`/product/${item.id}`} key={item.id} className='flex items-start flex-col'>
+          <Link to={`/product/${item.id}`} key={item.id} className='flex items-start flex-col mx-2'>
             <LazyLoad>
-              <img src={item.img} />
+              <img src={item.thumbnail} className=' h-52 text-center block ml-auto mr-auto p-2 ' />
+              {/* h-40 w-40 text-center block ml-auto mr-auto p-2 */}
             </LazyLoad>
             <h5>{item.price} €</h5>
             <h6>{item.title}</h6>

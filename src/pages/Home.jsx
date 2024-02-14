@@ -12,8 +12,8 @@ import _ from 'lodash';
 const Home = () => {
   const [searchItems, setSearchItems] = useState([])
   const [items, setItems] = useState([])
-  const [itemsForCard, setItemsForCard] = useState([])
-  const [itemsForCarousel, setItemsForCarousel] = useState([])
+  const [dataForCard, setDataForCard] = useState([])
+  const [dataForCarousel, setDataForCarousel] = useState([])
   const [isLoad, setIsLoad] = useState(true)
 
   useEffect(() => {
@@ -76,12 +76,6 @@ const Home = () => {
     // })
   }
 
-
-
-  // console.log(items);
-
-
-
   const getDataForCardByCategory = async () => {
 
     const { data } = await getCategoriesFakeStoreApi();
@@ -91,26 +85,9 @@ const Home = () => {
     });
 
     const itemsForCardArray = await axios.all(categoryPromises);
-    setItemsForCard(itemsForCardArray);
+    setDataForCard(itemsForCardArray);
   };
 
-
-
-  // const getDataForCarouselByCategory = async () => {
-  //   const { data } = await getCategoriesDummyApi();
-  //   const randomCategories = _.sampleSize(data, 8);
-  //   const categoryPromises = randomCategories.map(async (category) => {
-  //     const res = await getCategoryByQueryDummyApi(category);
-  //     return res.data.products;
-  //   });
-  //   const itemsArrays = await Promise.all(categoryPromises);
-
-  //   const reducedArr = []
-  //   for (let i = 0; i < itemsArrays.length; i += 2) {
-  //     test.push([...itemsArrays[i], ...itemsArrays[i + 1]]);
-  //   }
-  //   setItemsForCarousel(reducedArr);
-  // };
 
   const getDataForCarouselByCategory = async () => {
     const { data } = await getCategoriesDummyApi();
@@ -123,41 +100,9 @@ const Home = () => {
       }
       return acc;
     }, []);
-    setItemsForCarousel(reducedArr);
+    setDataForCarousel(reducedArr);
   };
 
-
-
-  // const getDataToCard = async () => {
-
-  //   const { data: arrOfMinCategories } = await getCategoriesFakeStoreApi()
-  //   const t = arrOfMinCategories.slice(0, 4).map(async (category) => {
-  //     return { data } = await getCategoryByQueryFakeStoreApi(category)
-  //   })
-
-  //   console.log(t);
-  //   // getCategoriesDummyApi().then(res => res.data[Math.floor(Math.random() * res.data.length)])
-
-  // }
-
-  // const getDataToCarousel = async () => {
-  //   const { data: category } = await getCategoriesDummyApi().then(res => res.data[Math.floor(Math.random() * res.data.length)])
-
-  // }
-
-
-  // const filterItemByCategory = (categoryId, max = Infinity) => {
-  //   return items.filter(item => item.category === categoryId).slice(0, max)
-  // }
-
-  // const getRandomItem = (arr) => {
-  //   return arr[Math.floor(Math.random() * arr.length)]
-  // }
-
-  // const itemForSingleCard = () => {
-  //   return getRandomItem(items)
-  // }
-  console.log(itemsForCard);
   return (
     <div className='black-background black-color min-h-screen'>
       <div className='container mx-auto '>
@@ -167,11 +112,14 @@ const Home = () => {
           : (
             <>
               <SearchBar options={searchItems} searchHandle={searchHandle} />
-              {itemsForCard.length > 0 && itemsForCard.map((cardItems, idx) => (
-                <div className='grid grid-cols-3' key={idx}>
-                  {cardItems.map(item => (
-                    <CardItem key={item.id} item={item} />
-                  ))}
+              {dataForCard.length > 0 && dataForCard.map((cardItems, idx) => (
+                <div key={idx}>
+                  <div className='grid grid-cols-3' >
+                    {cardItems.map(item => (
+                      <CardItem key={item.id} item={item} />
+                    ))}
+                  </div>
+                  {dataForCarousel[idx] && <MultiCarousel items={dataForCarousel[idx]} />}
                 </div>
               ))}
               {/* <MultiCarousel items={filterItemByCategory(category.id, 10)} title={category.title} /> */}
