@@ -101,9 +101,10 @@ const SignUpForm = () => {
 				isValid = isNumeric(value);
 				break;
 		}
-		requiredInputHandler(name, value, isValid);
+
+		requiredInputHandler(name, value, isValid, event.target.alt);
 	};
-	const requiredInputHandler = (name, value, valid) => {
+	const requiredInputHandler = (name, value, valid, alt) => {
 		if (name === 'index') {
 			if (isNaN(+value)) {
 				value = value.replace(/[^0-9]/g, '');
@@ -111,17 +112,56 @@ const SignUpForm = () => {
 		}
 		setUserStorage((prevUserStorage) => ({
 			...prevUserStorage,
-			[name]: { value, valid },
 			corporateStorage: {
 				...prevUserStorage.corporateStorage,
-				[name]: { value, valid },
-				address: {
-					...prevUserStorage.corporateStorage.address,
-					[name]: { value, valid },
-				},
+				...(alt === 'corporateStorage'
+					? {
+							[name]: { value, valid },
+							address: { ...prevUserStorage.corporateStorage.address },
+						}
+					: alt === 'address'
+					? { address: { ...prevUserStorage.corporateStorage.address, [name]: { value, valid } } }
+					: {}),
 			},
+			...(alt.length === 0 ? { [name]: { value, valid } } : {}),
 		}));
-	
+
+		// if (alt === 'corporateStorage') {
+		// 	setUserStorage((prevUserStorage) => ({
+		// 		...prevUserStorage,
+		// 		corporateStorage: {
+		// 			...prevUserStorage.corporateStorage,
+		// 			[name]: { value, valid },
+		// 			address: {
+		// 				...prevUserStorage.corporateStorage.address,
+		// 			},
+		// 		},
+		// 	}));
+		// }
+		// if (alt === 'address') {
+		// 	setUserStorage((prevUserStorage) => ({
+		// 		...prevUserStorage,
+		// 		corporateStorage: {
+		// 			...prevUserStorage.corporateStorage,
+		// 			address: {
+		// 				...prevUserStorage.corporateStorage.address,
+		// 				[name]: { value, valid },
+		// 			},
+		// 		},
+		// 	}));
+		// }
+		// if (!alt.length) {
+		// 	setUserStorage((prevUserStorage) => ({
+		// 		...prevUserStorage,
+		// 		[name]: { value, valid },
+		// 		corporateStorage: {
+		// 			...prevUserStorage.corporateStorage,
+		// 			address: {
+		// 				...prevUserStorage.corporateStorage.address,
+		// 			},
+		// 		},
+		// 	}));
+		// }
 	};
 	console.log(userStorage);
 	// setCorporateStorage((prevCorporateStorage) => ({
@@ -175,11 +215,11 @@ const SignUpForm = () => {
 	// };
 	const checkCorporateHandler = () => {
 		setIsCorporate(true);
-	
+
 	};
 	const checkUserHandler = () => {
 		setIsCorporate(false);
-	
+
 	};
 	// console.log(isCorporate);
 
@@ -203,14 +243,14 @@ const SignUpForm = () => {
 			console.log({ ...userStorage });
 			setErrorMessage(
 				ERRORS_SIGN_UP[
-					Object.keys(userStorage).find((el) => {
-						if (el === 'corporateStorage') {
-							return !Object.keys(userStorage[el]).every(
-								(subEl) => userStorage[el][subEl].valid
-							);
-						}
-						return !userStorage[el].valid;
-					})
+				Object.keys(userStorage).find((el) => {
+					if (el === 'corporateStorage') {
+						return !Object.keys(userStorage[el]).every(
+							(subEl) => userStorage[el][subEl].valid
+						);
+					}
+					return !userStorage[el].valid;
+				})
 				]
 			);
 		}
@@ -395,6 +435,7 @@ const SignUpForm = () => {
 									className="pl-2 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 									placeholder=" "
 									required
+									alt='corporateStorage'
 								/>
 								<label
 									htmlFor="phoneNumber"
@@ -413,6 +454,7 @@ const SignUpForm = () => {
 									className="pl-2 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 									placeholder=" "
 									required
+									alt='corporateStorage'
 								/>
 								<label
 									htmlFor="companyName"
@@ -431,6 +473,7 @@ const SignUpForm = () => {
 										className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 										placeholder="Street"
 										type="text"
+										alt='address'
 									/>
 
 									<input
@@ -441,6 +484,7 @@ const SignUpForm = () => {
 										placeholder="Index"
 										type="text"
 										maxLength="6"
+										alt='address'
 									/>
 
 									<input
@@ -450,6 +494,7 @@ const SignUpForm = () => {
 										className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 										placeholder="City"
 										type="text"
+										alt='address'
 									/>
 								</div>
 							</div>
