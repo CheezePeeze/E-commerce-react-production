@@ -20,11 +20,11 @@ const CardItem = ({ item }) => {
     const lastIndex = title.lastIndexOf(' ', 20);
     return title.slice(0, lastIndex) + '...'
   }
-
+  // console.log(item);
   return (
     <div className="p-10">
       {item && (
-        <Link to={`/product/${item.id}`}>
+        <Link to={`/product/${item.shop}/${item.id}`}>
           <Card sx={{ maxWidth: 305 }}>
             <CardActionArea className='h-96'>
               <LazyLoad >

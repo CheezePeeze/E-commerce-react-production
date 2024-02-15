@@ -52,7 +52,7 @@ const MultiCarousel = ({ items }) => {
               max: 1024,
               min: 464
             },
-            items: 2,
+            items: 3,
             partialVisibilityGutter: 30
           }
         }}
@@ -65,7 +65,7 @@ const MultiCarousel = ({ items }) => {
         slidesToSlide={5}
       >
         {items.map(item => (
-          <Link to={`/product/${item.id}`} key={item.id} className='flex items-start flex-col mx-2'>
+          <Link to={`/product/${item.shop}/${item.id}`} key={item.id} className='flex items-start flex-col mx-2'>
             <LazyLoad>
               <img src={item.thumbnail} className=' h-52 text-center block ml-auto mr-auto p-2 ' />
               {/* h-40 w-40 text-center block ml-auto mr-auto p-2 */}
