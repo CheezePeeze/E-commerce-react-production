@@ -1,4 +1,12 @@
-const BASIC_URL = 'https://json-server-shop.adaptable.app/';
+
+const BASIC_URL = 'https://json-server-shop.adaptable.app/'
+const FAKE_STORE_API = 'https://fakestoreapi.com'
+const DUMMY_API = 'https://dummyjson.com'
+const UNIQ_ID = 1000
+const SHOPS = {
+  1: 'FakeStore',
+  2: 'Dummy'
+}
 
 const ERRORS_SIGN_UP = {
 	firstName: 'Name must contain only letters*',
@@ -14,4 +22,11 @@ const ERRORS_SIGN_UP = {
 	index: 'must contain only numbers',
 };
 
-export { BASIC_URL, ERRORS_SIGN_UP };
+export {
+  BASIC_URL,
+  FAKE_STORE_API,
+  DUMMY_API,
+  UNIQ_ID,
+  SHOPS,
+	ERRORS_SIGN_UP
+}

@@ -5,89 +5,106 @@ import CardItem from '../components/Card'
 import axios from 'axios'
 import SearchBar from '../components/SearchBar'
 import CircularProgressBar from '../components/CircularProgressBar'
-
+import {
+  getAllProductsByQuery,
+  getCategoriesFakeStoreApi,
+  getCategoriesDummyApi,
+  getCategoryByQueryFakeStoreApi,
+  getCategoryByQueryDummyApi
+} from '../common/api'
+import { UNIQ_ID } from '../common/constants'
+import _ from 'lodash';
+import { FooterWithLogo } from '../components/Footer/Footer'
 
 const Home = () => {
   const [searchItems, setSearchItems] = useState([])
-  const [items, setItems] = useState([])
-  const [categories, setCategories] = useState([])
+  const [dataForCard, setDataForCard] = useState([])
+  const [dataForCarousel, setDataForCarousel] = useState([])
   const [isLoad, setIsLoad] = useState(true)
 
   useEffect(() => {
-    getCategories()
-    getItems()
+    getDataForCardByCategory()
+    getDataForCarouselByCategory()
   }, [])
 
-
   useEffect(() => {
-    if (items.length) {
+    if (dataForCard.length && dataForCarousel) {
       setIsLoad(false)
     }
+  }, [dataForCard, dataForCarousel])
 
-  }, [items])
-
-  const searchHandle = async () => {
-    try {
-      const { data } = await axios.get('https://json-server-shop.adaptable.app/items');
-      const newArr = data.map(item => ({ ...item, label: item.title }));
-      setSearchItems(newArr);
-    } catch (error) {
-      console.error("Error fetching searchHandle:", error);
-    }
+  const searchHandle = (e) => {
+    getAllProductsByQuery(e.target.value)
+      .then((res) => {
+        setSearchItems([
+          ...res[0].data
+            .filter(item => item.title.toLowerCase().includes(e.target.value))
+            .map(item => ({
+              ...item,
+              id: item.id + UNIQ_ID,
+              rating: item.rating.rate,
+              stock: item.rating.count,
+              thumbnail: item.image,
+              images: [item.image],
+              shop: 1
+            })),
+          ...res[1].data.products.map(item => ({
+            ...item,
+            shop: 2
+          }))
+        ])
+      })
   }
 
-  const getCategories = async () => {
-    try {
-      const { data } = await axios.get('https://json-server-shop.adaptable.app/categories');
-      setCategories(data);
-    } catch (error) {
-      console.error("Error fetching getCategories:", error);
-    }
-  }
+  const getDataForCardByCategory = async () => {
+    const { data } = await getCategoriesFakeStoreApi();
+    const categoryPromises = data.slice(0, 4).map(async (category) => {
+      const res = await getCategoryByQueryFakeStoreApi(category);
+      return res.data.slice(0, 3);
+    });
 
-  const getItems = async () => {
-    try {
-      const { data } = await axios.get(`https://json-server-shop.adaptable.app/items?category=${1}&category=${2}&category=${3}&category=${4}`);
-      setItems(prev => [...prev, ...data]);
-    } catch (error) {
-      console.error("Error fetching getItems:", error);
-    }
-  }
+    const itemsForCardArray = await axios.all(categoryPromises);
+    setDataForCard(itemsForCardArray);
+  };
 
-  const filterItemByCategory = (categoryId, max = Infinity) => {
-    return items.filter(item => item.category === categoryId).slice(0, max)
-  }
 
-  const getRandomItem = (arr) => {
-    return arr[Math.floor(Math.random() * arr.length)]
-  }
-
-  const itemForSingleCard = () => {
-    return getRandomItem(items)
-  }
+  const getDataForCarouselByCategory = async () => {
+    const { data } = await getCategoriesDummyApi();
+    const randomCategories = _.sampleSize(data, 8);
+    const categoryPromises = randomCategories.map(async (category) => (await getCategoryByQueryDummyApi(category)).data.products);
+    const itemsArrays = await Promise.all(categoryPromises);
+    const reducedArr = itemsArrays.reduce((acc, items, i) => {
+      if (i % 2 === 0) {
+        acc.push([...items, ...(itemsArrays[i + 1] || [])]);
+      }
+      return acc;
+    }, []);
+    setDataForCarousel(reducedArr);
+  };
 
   return (
     <div className='black-background black-color min-h-screen'>
-      <div className='container mx-auto '>
         <Navbar />
+      <div className='container mx-auto my-5 '>
         {isLoad ?
           <CircularProgressBar />
           : (
             <>
-              <SearchBar items={searchItems} searchHandle={searchHandle} />
-              {(categories.length > 1 && items.length > 1) && categories.map(category => (
-                <div key={category.id}>
-                  <MultiCarousel items={filterItemByCategory(category.id, 10)} title={category.title} />
-                  <div className='grid grid-cols-3'>
-                    <CardItem item={itemForSingleCard()} />
-                    <CardItem item={itemForSingleCard()} />
-                    <CardItem item={itemForSingleCard()} />
+              <SearchBar options={searchItems} searchHandle={searchHandle} />
+              {dataForCard.length > 0 && dataForCard.map((cardItems, idx) => (
+                <div key={idx}>
+                  <div className='grid grid-cols-3' >
+                    {cardItems.map(item => (
+                      <CardItem key={item.id} item={item} />
+                    ))}
                   </div>
+                  {dataForCarousel[idx] && <MultiCarousel items={dataForCarousel[idx]} />}
                 </div>
               ))}
             </>
           )}
       </div>
+      <FooterWithLogo/>
     </div>
   )
 }

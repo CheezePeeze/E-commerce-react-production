@@ -11,19 +11,26 @@ const CardItem = ({ item }) => {
   const lastPrice = () => {
     return (item.price + item.price * 0.1).toFixed(2)
   }
+  const sliceDescription = (description) => {
+    const lastIndex = description.lastIndexOf(' ', 60);
+    return description.slice(0, lastIndex) + '...'
+  }
+
+  const sliceTitle = (title) => {
+    const lastIndex = title.lastIndexOf(' ', 20);
+    return title.slice(0, lastIndex) + '...'
+  }
 
   return (
     <div className="p-10">
       {item && (
         <Link to={`/product/${item.id}`}>
           <Card sx={{ maxWidth: 305 }}>
-            <CardActionArea>
+            <CardActionArea className='h-96'>
               <LazyLoad >
-                <CardMedia
-                  component="img"
-                  image={item.img}
-                  alt={item.title}
-                />
+                <CardMedia>
+                  <img src={item.image} className=' h-48 text-center block ml-auto mr-auto p-2' />
+                </CardMedia>
               </LazyLoad>
               <CardContent>
                 <Typography variant="h6" >
@@ -33,10 +40,10 @@ const CardItem = ({ item }) => {
                   Last price <span className='line-through'>{lastPrice()}€</span>
                 </Typography>
                 <Typography gutterBottom >
-                  <span className='font-bold'>{item.title}</span>
+                  <span className='font-bold'>{sliceTitle(item.title)}</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {item.description}
+                  {sliceDescription(item.description)}
                 </Typography>
               </CardContent>
             </CardActionArea>
