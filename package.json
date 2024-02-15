@@ -2,7 +2,6 @@
   "name": "e-commerce-react-production",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://cheezepeeze.github.io/E-commerce-react-production/",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
