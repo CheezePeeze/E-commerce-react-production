@@ -52,7 +52,7 @@ const MultiCarousel = ({ items }) => {
               max: 1024,
               min: 464
             },
-            items: 2,
+            items: 3,
             partialVisibilityGutter: 30
           }
         }}
