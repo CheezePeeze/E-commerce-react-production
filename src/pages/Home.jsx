@@ -1,60 +1,59 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
-import MultiCarousel from '../components/MultiCarousel'
-import CardItem from '../components/Card'
-import axios from 'axios'
-import SearchBar from '../components/SearchBar'
-import CircularProgressBar from '../components/CircularProgressBar'
+import React, { useEffect, useState } from 'react';
+import Navbar from '../components/Navbar';
+import MultiCarousel from '../components/MultiCarousel';
+import CardItem from '../components/Card';
+import axios from 'axios';
+import SearchBar from '../components/SearchBar';
+import CircularProgressBar from '../components/CircularProgressBar';
 import {
-  getAllProductsByQuery,
-  getCategoriesFakeStoreApi,
-  getCategoriesDummyApi,
-  getCategoryByQueryFakeStoreApi,
-  getCategoryByQueryDummyApi
-} from '../common/api'
-import { UNIQ_ID } from '../common/constants'
+	getAllProductsByQuery,
+	getCategoriesFakeStoreApi,
+	getCategoriesDummyApi,
+	getCategoryByQueryFakeStoreApi,
+	getCategoryByQueryDummyApi,
+} from '../common/api';
+import { UNIQ_ID } from '../common/constants';
 import _ from 'lodash';
-import { FooterWithLogo } from '../components/Footer/Footer'
+import { FooterWithLogo } from '../components/Footer/Footer';
 
 const Home = () => {
-  const [searchItems, setSearchItems] = useState([])
-  const [dataForCard, setDataForCard] = useState([])
-  const [dataForCarousel, setDataForCarousel] = useState([])
-  const [isLoad, setIsLoad] = useState(true)
+	const [searchItems, setSearchItems] = useState([]);
+	const [dataForCard, setDataForCard] = useState([]);
+	const [dataForCarousel, setDataForCarousel] = useState([]);
+	const [isLoad, setIsLoad] = useState(true);
 
-  useEffect(() => {
-    getDataForCardByCategory()
-    getDataForCarouselByCategory()
-  }, [])
+	useEffect(() => {
+		getDataForCardByCategory();
+		getDataForCarouselByCategory();
+	}, []);
 
-  useEffect(() => {
-    if (dataForCard.length && dataForCarousel) {
-      setIsLoad(false)
-    }
-  }, [dataForCard, dataForCarousel])
+	useEffect(() => {
+		if (dataForCard.length && dataForCarousel) {
+			setIsLoad(false);
+		}
+	}, [dataForCard, dataForCarousel]);
 
-  const searchHandle = (e) => {
-    getAllProductsByQuery(e.target.value)
-      .then((res) => {
-        setSearchItems([
-          ...res[0].data
-            .filter(item => item.title.toLowerCase().includes(e.target.value))
-            .map(item => ({
-              ...item,
-              id: item.id + UNIQ_ID,
-              rating: item.rating.rate,
-              stock: item.rating.count,
-              thumbnail: item.image,
-              images: [item.image],
-              shop: 1
-            })),
-          ...res[1].data.products.map(item => ({
-            ...item,
-            shop: 2
-          }))
-        ])
-      })
-  }
+	const searchHandle = (e) => {
+		getAllProductsByQuery(e.target.value).then((res) => {
+			setSearchItems([
+				...res[0].data
+					.filter((item) => item.title.toLowerCase().includes(e.target.value))
+					.map((item) => ({
+						...item,
+						id: item.id + UNIQ_ID,
+						rating: item.rating.rate,
+						stock: item.rating.count,
+						thumbnail: item.image,
+						images: [item.image],
+						shop: 1,
+					})),
+				...res[1].data.products.map((item) => ({
+					...item,
+					shop: 2,
+				})),
+			]);
+		});
+	};
 
   const getDataForCardByCategory = async () => {
     const { data } = await getCategoriesFakeStoreApi();
@@ -71,10 +70,26 @@ const Home = () => {
       }))
     });
 
-    const itemsForCardArray = await axios.all(categoryPromises);
-    setDataForCard(itemsForCardArray);
-  };
+		const itemsForCardArray = await axios.all(categoryPromises);
+		setDataForCard(itemsForCardArray);
+	};
 
+	// const getDataForCarouselByCategory = async () => {
+	// 	const { data } = await getCategoriesDummyApi();
+	// 	const randomCategories = _.sampleSize(data, 8);
+	// 	const categoryPromises = randomCategories.map(
+	// 		async (category) =>
+	// 			(await getCategoryByQueryDummyApi(category)).data.products
+	// 	);
+	// 	const itemsArrays = await Promise.all(categoryPromises);
+	// 	const reducedArr = itemsArrays.reduce((acc, items, i) => {
+	// 		if (i % 2 === 0) {
+	// 			acc.push([...items, ...(itemsArrays[i + 1] || [])]);
+	// 		}
+	// 		return acc;
+	// 	}, []);
+	// 	setDataForCarousel(reducedArr);
+	// };
 
   const getDataForCarouselByCategory = async () => {
     const { data } = await getCategoriesDummyApi();
