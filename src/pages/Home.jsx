@@ -74,23 +74,6 @@ const Home = () => {
 		setDataForCard(itemsForCardArray);
 	};
 
-	// const getDataForCarouselByCategory = async () => {
-	// 	const { data } = await getCategoriesDummyApi();
-	// 	const randomCategories = _.sampleSize(data, 8);
-	// 	const categoryPromises = randomCategories.map(
-	// 		async (category) =>
-	// 			(await getCategoryByQueryDummyApi(category)).data.products
-	// 	);
-	// 	const itemsArrays = await Promise.all(categoryPromises);
-	// 	const reducedArr = itemsArrays.reduce((acc, items, i) => {
-	// 		if (i % 2 === 0) {
-	// 			acc.push([...items, ...(itemsArrays[i + 1] || [])]);
-	// 		}
-	// 		return acc;
-	// 	}, []);
-	// 	setDataForCarousel(reducedArr);
-	// };
-
   const getDataForCarouselByCategory = async () => {
     const { data } = await getCategoriesDummyApi();
     const randomCategories = _.sampleSize(data, 8);
