@@ -28,7 +28,7 @@ const SignUpForm = () => {
 			valid: false,
 		},
 		isCorporate: {
-			value: isCorporate,
+			value: false,
 			valid: true,
 		},
 		corporateStorage: {
@@ -109,10 +109,24 @@ const SignUpForm = () => {
 
 	const checkCorporateHandler = () => {
 		setIsCorporate(true);
+		setUserStorage((prevUserStorage) => ({
+			...prevUserStorage,
+			isCorporate: {
+				value: true,
+				valid: true,
+			}
+		}))
 
 	};
 	const checkUserHandler = () => {
 		setIsCorporate(false);
+		setUserStorage((prevUserStorage) => ({
+			...prevUserStorage,
+			isCorporate: {
+				value: false,
+				valid: true,
+			}
+		}))
 
 	};
 
@@ -139,16 +153,18 @@ const SignUpForm = () => {
 		// 		return !userStorage[el].valid;
 		// 	})
 		// ]
-		// setErrorMessage(error);
+		setErrorMessage(ERRORS_SIGN_UP[findInvalidField(userStorage)]);
+		// ERRORS_SIGN_UP[findInvalidField(userStorage)]
 
-		console.log(findInvalidField(userStorage));
 	};
 
 	const findInvalidField = (obj, prefix = '', originalKey) => {
 		for (const key in obj) {
 			const currentKey = prefix ? `${prefix}.${key}` : key;
+			if (prefix.includes('corporateStorage') && userStorage.isCorporate.value === false) {
+				continue;
+			}
 			if (typeof obj[key] === 'object') {
-				// console.log('currentKey', currentKey);
 				const result = findInvalidField(obj[key], currentKey, key);
 				if (result) {
 					return result;

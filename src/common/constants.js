@@ -4,8 +4,8 @@ const FAKE_STORE_API = 'https://fakestoreapi.com'
 const DUMMY_API = 'https://dummyjson.com'
 const UNIQ_ID = 1000
 const SHOPS = {
-  1: 'FakeStore',
-  2: 'Dummy'
+	1: 'FakeStore',
+	2: 'Dummy'
 }
 
 const ERRORS_SIGN_UP = {
@@ -17,16 +17,16 @@ const ERRORS_SIGN_UP = {
 	confirmPassword: 'Password must match',
 	phoneNumber: 'Please enter the valid number',
 	companyName: 'Company name must contain only letters',
-	street: 'must contain only letters',
-	city: 'must contain only letters',
-	index: 'must contain only numbers',
+	street: 'Street must contain only letters',
+	city: 'City must contain only letters',
+	index: 'Index must contain only numbers',
 };
 
 export {
-  BASIC_URL,
-  FAKE_STORE_API,
-  DUMMY_API,
-  UNIQ_ID,
-  SHOPS,
+	BASIC_URL,
+	FAKE_STORE_API,
+	DUMMY_API,
+	UNIQ_ID,
+	SHOPS,
 	ERRORS_SIGN_UP
 }
