@@ -6,6 +6,7 @@ import Carousel from 'react-multi-carousel';
 import { useParams } from 'react-router-dom';
 import { getProductByIdDummyApi, getProductByIdFakeStoreApi } from '../common/api';
 import { Rating } from '@mui/material';
+import LazyLoad from 'react-lazy-load';
 
 const productTest = {
 	name: 'Basic Tee 6-Pack',
@@ -43,7 +44,7 @@ const productTest = {
 		{ name: 'XS', inStock: true },
 		{ name: 'S', inStock: true },
 		{ name: 'M', inStock: true },
-		{ name: 'L', inStock: true },
+		{ name: 'L', inStock: false },
 		{ name: 'XL', inStock: true },
 		{ name: '2XL', inStock: true },
 		{ name: '3XL', inStock: true },
@@ -72,11 +73,21 @@ const sizes = [
 	{ name: 'XS', inStock: true },
 	{ name: 'S', inStock: true },
 	{ name: 'M', inStock: true },
-	{ name: 'L', inStock: true },
+	{ name: 'L', inStock: false },
 	{ name: 'XL', inStock: true },
 	{ name: '2XL', inStock: true },
 	{ name: '3XL', inStock: true },
 ]
+
+const highlights = [
+	'Hand cut and sewn locally',
+	'Dyed with our proprietary colors',
+	'Pre-washed & pre-shrunk',
+	'Ultra-soft 100% cotton',
+]
+
+const details =
+	'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.'
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
@@ -86,7 +97,7 @@ export default function Example() {
 	const [selectedColor, setSelectedColor] = useState(colors[0]);
 	const [selectedSize, setSelectedSize] = useState(sizes[2]);
 
-	const [product, setProduct] = useState([])
+	const [product, setProduct] = useState({})
 	const { company: companyId, id } = useParams()
 
 
@@ -115,7 +126,7 @@ export default function Example() {
 		}
 	}, [companyId])
 
-	console.log(product);
+	// console.log(product);
 	return (
 		<div className="bg-white container mx-auto ">
 			<Navbar />
@@ -211,12 +222,12 @@ export default function Example() {
 							<div className="mt-10">
 								<div className="flex items-center justify-between">
 									<h3 className="text-sm font-medium text-gray-900">Size</h3>
-									<a
+									{/* <a
 										href="#"
 										className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
 									>
 										Size guide
-									</a>
+									</a> */}
 								</div>
 
 								<RadioGroup
@@ -299,110 +310,67 @@ export default function Example() {
 
 					<div className="py-5 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-0">
 						{/* Description and details */}
-
-						<Carousel
-							additionalTransfrom={0}
-							arrows
-							autoPlaySpeed={3000}
-							centerMode={false}
-							// className=" max-h-96 "
-							className=" mb-5 "
-							containerClass="container"
-							dotListClass=""
-							draggable
-							focusOnSelect={false}
-							infinite
-							itemClass=""
-							keyBoardControl
-							minimumTouchDrag={80}
-							pauseOnHover
-							renderArrowsWhenDisabled={false}
-							renderButtonGroupOutside={false}
-							renderDotsOutside={false}
-							responsive={{
-								desktop: {
-									breakpoint: {
-										max: 3000,
-										min: 1024
+						{product.images && (
+							<Carousel
+								additionalTransfrom={0}
+								arrows
+								autoPlaySpeed={3000}
+								centerMode={false}
+								className=" mb-5 "
+								containerClass="container"
+								dotListClass=""
+								draggable
+								focusOnSelect={false}
+								infinite
+								keyBoardControl
+								minimumTouchDrag={80}
+								pauseOnHover
+								renderArrowsWhenDisabled={false}
+								renderButtonGroupOutside={false}
+								renderDotsOutside={false}
+								responsive={{
+									desktop: {
+										breakpoint: {
+											max: 3000,
+											min: 1024
+										},
+										items: 1
 									},
-									items: 1
-								},
-								mobile: {
-									breakpoint: {
-										max: 464,
-										min: 0
+									mobile: {
+										breakpoint: {
+											max: 464,
+											min: 0
+										},
+										items: 1
 									},
-									items: 1
-								},
-								tablet: {
-									breakpoint: {
-										max: 1024,
-										min: 464
-									},
-									items: 1
-								}
-							}}
-							rewind={false}
-							rewindWithAnimation={false}
-							rtl={false}
-							shouldResetAutoplay
-							showDots
-							sliderClass=""
-							slidesToSlide={1}
-							swipeable
-						>
-							<img
-								src="https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-								style={{
-									display: 'block',
-									height: '100%',
-									margin: 'auto',
-									width: '100%'
+									tablet: {
+										breakpoint: {
+											max: 1024,
+											min: 464
+										},
+										items: 1
+									}
 								}}
-							/>
-							<img
-								src="https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
-								style={{
-									display: 'block',
-									height: '100%',
-									margin: 'auto',
-									width: '100%'
-								}}
-							/>
-							<img
-								src="https://images.unsplash.com/photo-1550133730-695473e544be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-								style={{
-									display: 'block',
-									height: '100%',
-									margin: 'auto',
-									width: '100%'
-								}}
-							/>
-							<img
-								src="https://images.unsplash.com/photo-1550167164-1b67c2be3973?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-								style={{
-									display: 'block',
-									height: '100%',
-									margin: 'auto',
-									width: '100%'
-								}}
-							/>
-							<img
-								src="https://images.unsplash.com/photo-1550338861-b7cfeaf8ffd8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-								style={{
-									display: 'block',
-									height: '100%',
-									margin: 'auto',
-									width: '100%'
-								}}
-							/>
-						</Carousel>
+								rewind={false}
+								rewindWithAnimation={false}
+								rtl={false}
+								shouldResetAutoplay
+								showDots
+								sliderClass=""
+								slidesToSlide={1}
+								swipeable
+							>
+								{product.images.map((item, idx) =>
+									<img src={item} key={idx} className=' h-64 text-center block ml-auto mr-auto p-2' />
+								)}
+							</Carousel>
+						)}
 
 						<div>
 							<h3 className="sr-only">Description</h3>
 
 							<div className="space-y-6">
-								<p className="text-base text-gray-900">{productTest.description}</p>
+								<p className="text-base text-gray-900">{product.description}</p>
 							</div>
 						</div>
 
@@ -411,7 +379,7 @@ export default function Example() {
 
 							<div className="mt-4">
 								<ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-									{productTest.highlights.map((highlight) => (
+									{highlights.map((highlight) => (
 										<li key={highlight} className="text-gray-400">
 											<span className="text-gray-600">{highlight}</span>
 										</li>
@@ -424,7 +392,7 @@ export default function Example() {
 							<h2 className="text-sm font-medium text-gray-900">Details</h2>
 
 							<div className="mt-4 space-y-6">
-								<p className="text-sm text-gray-600">{productTest.details}</p>
+								<p className="text-sm text-gray-600">{details}</p>
 							</div>
 						</div>
 					</div>

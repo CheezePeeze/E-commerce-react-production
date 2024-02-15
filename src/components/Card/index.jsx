@@ -24,7 +24,7 @@ const CardItem = ({ item }) => {
   return (
     <div className="p-10">
       {item && (
-        <Link to={`/${item.shop}/${item.id}`}>
+        <Link to={`/product/${item.shop}/${item.id}`}>
           <Card sx={{ maxWidth: 305 }}>
             <CardActionArea className='h-96'>
               <LazyLoad >

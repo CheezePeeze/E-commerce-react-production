@@ -59,7 +59,15 @@ const Home = () => {
     const { data } = await getCategoriesFakeStoreApi();
     const categoryPromises = data.slice(0, 4).map(async (category) => {
       const res = await getCategoryByQueryFakeStoreApi(category);
-      return res.data.slice(0, 3);
+      return res.data.slice(0, 3).map(el => ({
+        ...el,
+        id: el.id,
+        rating: el.rating.rate,
+        stock: el.rating.count,
+        thumbnail: el.image,
+        images: [el.image],
+        shop: 1
+      }))
     });
 
     const itemsForCardArray = await axios.all(categoryPromises);
@@ -78,7 +86,11 @@ const Home = () => {
       }
       return acc;
     }, []);
-    setDataForCarousel(reducedArr);
+    const mutatedItems = reducedArr.map(arr => arr.map(item => ({
+      ...item,
+      shop: 2
+    })))
+    setDataForCarousel(mutatedItems);
   };
 
   return (
