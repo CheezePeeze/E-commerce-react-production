@@ -27,7 +27,10 @@ const SignUpForm = () => {
 			value: '',
 			valid: false,
 		},
-		isCorporate: isCorporate,
+		isCorporate: {
+			value: isCorporate,
+			valid: true,
+		},
 		corporateStorage: {
 			phoneNumber: {
 				value: '',
@@ -53,30 +56,7 @@ const SignUpForm = () => {
 			},
 		},
 	});
-	// const [corporateStorage, setCorporateStorage] = useState({
-	// 	phoneNumber: {
-	// 		value: '',
-	// 		valid: false,
-	// 	},
-	// 	companyName: {
-	// 		value: '',
-	// 		valid: false,
-	// 	},
-	// });
-	// const [addressStorage, setAddressStorage] = useState({
-	// 	street: {
-	// 		value: '',
-	// 		valid: false,
-	// 	},
-	// 	city: {
-	// 		value: '',
-	// 		valid: false,
-	// 	},
-	// 	index: {
-	// 		value: '',
-	// 		valid: false,
-	// 	},
-	// });
+
 	const userHandleChange = (event) => {
 		const { name, value } = event.target;
 		let isValid = false;
@@ -84,6 +64,9 @@ const SignUpForm = () => {
 		switch (name) {
 			case 'firstName':
 			case 'lastName':
+			case 'street':
+			case 'companyName':
+			case 'city':
 				isValid = isAlpha(value);
 				break;
 			case 'email':
@@ -94,9 +77,6 @@ const SignUpForm = () => {
 				isValid = isStrongPassword(value);
 				break;
 			case 'phoneNumber':
-			case 'companyName':
-				isValid = isAlpha(value);
-				break;
 			case 'index':
 				isValid = isNumeric(value);
 				break;
@@ -116,103 +96,17 @@ const SignUpForm = () => {
 				...prevUserStorage.corporateStorage,
 				...(alt === 'corporateStorage'
 					? {
-							[name]: { value, valid },
-							address: { ...prevUserStorage.corporateStorage.address },
-						}
+						[name]: { value, valid },
+						address: { ...prevUserStorage.corporateStorage.address },
+					}
 					: alt === 'address'
-					? { address: { ...prevUserStorage.corporateStorage.address, [name]: { value, valid } } }
-					: {}),
+						? { address: { ...prevUserStorage.corporateStorage.address, [name]: { value, valid } } }
+						: {}),
 			},
 			...(alt.length === 0 ? { [name]: { value, valid } } : {}),
 		}));
-
-		// if (alt === 'corporateStorage') {
-		// 	setUserStorage((prevUserStorage) => ({
-		// 		...prevUserStorage,
-		// 		corporateStorage: {
-		// 			...prevUserStorage.corporateStorage,
-		// 			[name]: { value, valid },
-		// 			address: {
-		// 				...prevUserStorage.corporateStorage.address,
-		// 			},
-		// 		},
-		// 	}));
-		// }
-		// if (alt === 'address') {
-		// 	setUserStorage((prevUserStorage) => ({
-		// 		...prevUserStorage,
-		// 		corporateStorage: {
-		// 			...prevUserStorage.corporateStorage,
-		// 			address: {
-		// 				...prevUserStorage.corporateStorage.address,
-		// 				[name]: { value, valid },
-		// 			},
-		// 		},
-		// 	}));
-		// }
-		// if (!alt.length) {
-		// 	setUserStorage((prevUserStorage) => ({
-		// 		...prevUserStorage,
-		// 		[name]: { value, valid },
-		// 		corporateStorage: {
-		// 			...prevUserStorage.corporateStorage,
-		// 			address: {
-		// 				...prevUserStorage.corporateStorage.address,
-		// 			},
-		// 		},
-		// 	}));
-		// }
 	};
-	console.log(userStorage);
-	// setCorporateStorage((prevCorporateStorage) => ({
-	// 	...prevCorporateStorage,
-	// 	[name]: { value, valid },
-	// }));
-	// setAddressStorage((prevAddressStorage) => ({
-	// 	...prevAddressStorage,
-	// 	[name]: { value, valid },
-	// }));
 
-	// const corporateHandleChange = (event) => {
-	// 	const { name, value } = event.target;
-	// 	// console.log(value);
-	// 	let isValid = false;
-	// 	switch (name) {
-	// 		case 'phoneNumber':
-	// 			isValid = isNumeric(value);
-	// 			break;
-	// 		case 'companyName':
-	// 			isValid = isAlpha(value);
-	// 		default:
-	// 			break;
-	// 	}
-	// 	requiredInputHandler(name, value, isValid);
-
-	// };
-	// const addressHandleChange = (event) => {
-	// 	let { name, value } = event.target;
-	// 	// console.log(name);
-	// 	if (name === 'index') {
-	// 		if (isNaN(+value)) {
-	// 			value = value.replace(/[^0-9]/g, '');
-	// 		}
-	// 	}
-	// 	let isValid = false;
-	// 	switch (name) {
-	// 		case 'street':
-	// 			isValid = isAlpha(value);
-	// 			break;
-
-	// 		case 'index':
-	// 			isValid = isNumeric(value);
-	// 			break;
-
-	// 		case 'city':
-	// 			isValid = isAlpha(value);
-	// 			break;
-	// 	}
-	// 	requiredInputHandler(name, value, isValid);
-	// };
 	const checkCorporateHandler = () => {
 		setIsCorporate(true);
 
@@ -221,49 +115,52 @@ const SignUpForm = () => {
 		setIsCorporate(false);
 
 	};
-	// console.log(isCorporate);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		if (isCorporate) {
-			console.log({
-				...userStorage,
-				// corporateInfo: {
-				// 	phoneNumber: userStorage.corporateStorage.phoneNumber.value,
-				// 	companyName: userStorage.corporateStorage.companyName.value,
-				// 	address: {
-				// 		street: userStorage.corporateStorage.address.street.value,
-				// 		index: userStorage.corporateStorage.address.index.value,
-				// 		city: userStorage.corporateStorage.address.city.value,
-				// 	},
-				// 	// Add other fields if needed
-				// },
-			});
-		} else {
-			console.log({ ...userStorage });
-			setErrorMessage(
-				ERRORS_SIGN_UP[
-				Object.keys(userStorage).find((el) => {
-					if (el === 'corporateStorage') {
-						return !Object.keys(userStorage[el]).every(
-							(subEl) => userStorage[el][subEl].valid
-						);
-					}
-					return !userStorage[el].valid;
-				})
-				]
-			);
-		}
-		// axios.post(url, {
-		// 	...userStorage,
-		// 	corporateInfo: {
-		// 		...corporateStorage,
-		// 		companyAddress: { ...addressStorage },
-		// 	},
-		// });
+		// console.log(userStorage);
+
+		// const error = ERRORS_SIGN_UP[
+		// 	Object.keys(userStorage).find((el) => {
+		// 		console.log(userStorage.corporateStorage);
+		// 		if (el === 'corporateStorage') {
+
+		// 			if (el.corporateStorage === 'address') {
+		// 				console.log('address');
+		// 				return !Object.keys(userStorage[el].address).every(
+		// 					(subEl) => userStorage[el].address[subEl].valid
+		// 				);
+		// 			}
+		// 			return !Object.keys(userStorage[el]).every(
+		// 				(subEl) => userStorage[el][subEl].valid
+		// 			);
+		// 		}
+		// 		console.log(el, !userStorage[el].valid);
+		// 		return !userStorage[el].valid;
+		// 	})
+		// ]
+		// setErrorMessage(error);
+
+		console.log(findInvalidField(userStorage));
 	};
 
-	// console.log(`form submitted=> ${}`);
+	const findInvalidField = (obj, prefix = '', originalKey) => {
+		for (const key in obj) {
+			const currentKey = prefix ? `${prefix}.${key}` : key;
+			if (typeof obj[key] === 'object') {
+				// console.log('currentKey', currentKey);
+				const result = findInvalidField(obj[key], currentKey, key);
+				if (result) {
+					return result;
+				}
+			}
+			else if (key === 'valid' && obj[key] === false) {
+				return originalKey;
+			}
+		}
+		return null;
+	};
+
 
 	return (
 		<div className="container mx-auto px-4 py-4">
@@ -429,7 +326,7 @@ const SignUpForm = () => {
 									value={userStorage.corporateStorage.phoneNumber.value}
 									onChange={userHandleChange}
 									type="tel"
-									pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+									pattern="[0-9]{10}"
 									name="phoneNumber"
 									id="floating_phone"
 									className="pl-2 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -499,7 +396,6 @@ const SignUpForm = () => {
 								</div>
 							</div>
 						</div>
-						{errorMessage && <p className=" text-red-600">{errorMessage}</p>}
 					</>
 				)}
 				{errorMessage && <p className=" text-red-600">{errorMessage}</p>}
