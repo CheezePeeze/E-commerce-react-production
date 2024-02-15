@@ -14,6 +14,7 @@ import {
 } from '../common/api'
 import { UNIQ_ID } from '../common/constants'
 import _ from 'lodash';
+import { FooterWithLogo } from '../components/Footer/Footer'
 
 const Home = () => {
   const [searchItems, setSearchItems] = useState([])
@@ -103,6 +104,7 @@ const Home = () => {
             </>
           )}
       </div>
+      <FooterWithLogo/>
     </div>
   )
 }
