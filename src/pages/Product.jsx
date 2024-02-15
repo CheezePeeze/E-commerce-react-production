@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { getProductByIdDummyApi, getProductByIdFakeStoreApi } from '../common/api';
 import { Rating } from '@mui/material';
 import LazyLoad from 'react-lazy-load';
+import { FooterWithLogo } from '../components/Footer/Footer';
 
 const productTest = {
 	name: 'Basic Tee 6-Pack',
@@ -133,9 +134,7 @@ export default function Example() {
 			<div>
 				{/* productTest info */}
 				<div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-8">
-					<div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-
-					</div>
+					<div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8"></div>
 
 					{/* Options */}
 					<div className="mt-4 lg:row-span-3 lg:mt-0">
@@ -398,6 +397,7 @@ export default function Example() {
 					</div>
 				</div>
 			</div>
+			<FooterWithLogo />
 		</div>
 	);
 }
