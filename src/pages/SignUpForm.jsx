@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { ERRORS_SIGN_UP } from '../common/constants';
+import { ERRORS_SIGN_UP, ERROR_DIFFERENT_PASSWORD } from '../common/constants';
 import { isEmail, isNumeric, isStrongPassword, isAlpha } from 'validator';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid'
 
 const SignUpForm = () => {
 	const [isCorporate, setIsCorporate] = useState(false);
@@ -10,6 +11,7 @@ const SignUpForm = () => {
 	const navigate = useNavigate();
 
 	const [userStorage, setUserStorage] = useState({
+		id: uuidv4(),
 		firstName: {
 			value: '',
 			valid: false,
@@ -132,30 +134,15 @@ const SignUpForm = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		// console.log(userStorage);
-
-		// const error = ERRORS_SIGN_UP[
-		// 	Object.keys(userStorage).find((el) => {
-		// 		console.log(userStorage.corporateStorage);
-		// 		if (el === 'corporateStorage') {
-
-		// 			if (el.corporateStorage === 'address') {
-		// 				console.log('address');
-		// 				return !Object.keys(userStorage[el].address).every(
-		// 					(subEl) => userStorage[el].address[subEl].valid
-		// 				);
-		// 			}
-		// 			return !Object.keys(userStorage[el]).every(
-		// 				(subEl) => userStorage[el][subEl].valid
-		// 			);
-		// 		}
-		// 		console.log(el, !userStorage[el].valid);
-		// 		return !userStorage[el].valid;
-		// 	})
-		// ]
-		setErrorMessage(ERRORS_SIGN_UP[findInvalidField(userStorage)]);
-		// ERRORS_SIGN_UP[findInvalidField(userStorage)]
-
+		const errorKey = findInvalidField(userStorage)
+		if ((userStorage.password.value !== userStorage.confirmPassword.value) || errorKey) {
+			errorKey ? setErrorMessage(ERRORS_SIGN_UP[errorKey]) : setErrorMessage(ERROR_DIFFERENT_PASSWORD)
+		}
+		else {
+			console.log(userStorage);
+			axios.post(`https://json-server-shop.adaptable.app/users`, userStorage)
+			navigate('/');
+		}
 	};
 
 	const findInvalidField = (obj, prefix = '', originalKey) => {
@@ -177,7 +164,10 @@ const SignUpForm = () => {
 		return null;
 	};
 
-
+	// const deleteUser = () => {
+	// 	axios.delete(`https://json-server-shop.adaptable.app/users/0b12e583-b006-4258-a16c-495e17bcd15e`)
+	// }
+	// deleteUser()
 	return (
 		<div className="container mx-auto px-4 py-4">
 			<form onSubmit={handleSubmit} className="max-w-md mx-auto">

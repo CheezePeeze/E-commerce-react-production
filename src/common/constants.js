@@ -21,12 +21,13 @@ const ERRORS_SIGN_UP = {
 	city: 'City must contain only letters',
 	index: 'Index must contain only numbers',
 };
-
+const ERROR_DIFFERENT_PASSWORD = 'Password mismatch'
 export {
 	BASIC_URL,
 	FAKE_STORE_API,
 	DUMMY_API,
 	UNIQ_ID,
 	SHOPS,
-	ERRORS_SIGN_UP
+	ERRORS_SIGN_UP,
+	ERROR_DIFFERENT_PASSWORD
 }
