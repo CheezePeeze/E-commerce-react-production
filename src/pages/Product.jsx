@@ -24,6 +24,7 @@ import { StarIcon } from '@heroicons/react/20/solid';
 import { RadioGroup } from '@headlessui/react';
 import Navbar from '../components/Navbar';
 import Carousel from 'react-multi-carousel';
+import { FooterWithLogo } from '../components/Footer/Footer';
 
 const product = {
 	name: 'Basic Tee 6-Pack',
@@ -93,9 +94,7 @@ export default function Example() {
 			<div>
 				{/* Product info */}
 				<div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-8">
-					<div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-
-					</div>
+					<div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8"></div>
 
 					{/* Options */}
 					<div className="mt-4 lg:row-span-3 lg:mt-0">
@@ -293,24 +292,24 @@ export default function Example() {
 								desktop: {
 									breakpoint: {
 										max: 3000,
-										min: 1024
+										min: 1024,
 									},
-									items: 1
+									items: 1,
 								},
 								mobile: {
 									breakpoint: {
 										max: 464,
-										min: 0
+										min: 0,
 									},
-									items: 1
+									items: 1,
 								},
 								tablet: {
 									breakpoint: {
 										max: 1024,
-										min: 464
+										min: 464,
 									},
-									items: 1
-								}
+									items: 1,
+								},
 							}}
 							rewind={false}
 							rewindWithAnimation={false}
@@ -327,7 +326,7 @@ export default function Example() {
 									display: 'block',
 									height: '100%',
 									margin: 'auto',
-									width: '100%'
+									width: '100%',
 								}}
 							/>
 							<img
@@ -336,7 +335,7 @@ export default function Example() {
 									display: 'block',
 									height: '100%',
 									margin: 'auto',
-									width: '100%'
+									width: '100%',
 								}}
 							/>
 							<img
@@ -345,7 +344,7 @@ export default function Example() {
 									display: 'block',
 									height: '100%',
 									margin: 'auto',
-									width: '100%'
+									width: '100%',
 								}}
 							/>
 							<img
@@ -354,7 +353,7 @@ export default function Example() {
 									display: 'block',
 									height: '100%',
 									margin: 'auto',
-									width: '100%'
+									width: '100%',
 								}}
 							/>
 							<img
@@ -363,7 +362,7 @@ export default function Example() {
 									display: 'block',
 									height: '100%',
 									margin: 'auto',
-									width: '100%'
+									width: '100%',
 								}}
 							/>
 						</Carousel>
@@ -400,6 +399,7 @@ export default function Example() {
 					</div>
 				</div>
 			</div>
+			<FooterWithLogo />
 		</div>
 	);
 }
