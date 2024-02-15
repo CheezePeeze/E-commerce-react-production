@@ -86,9 +86,6 @@ const highlights = [
 	'Ultra-soft 100% cotton',
 ]
 
-const details =
-	'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.'
-
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
 }
