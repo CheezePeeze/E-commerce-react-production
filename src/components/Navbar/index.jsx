@@ -91,8 +91,7 @@ export default function Example() {
 										</Menu.Item>
 										<Menu.Item>
 											{({ active }) => (
-												<Link to="/sign-up">
-													<a
+												<Link to="/sign-up"
 														href="#"
 														className={classNames(
 															active ? 'bg-gray-100' : '',
@@ -100,7 +99,6 @@ export default function Example() {
 														)}
 													>
 														Sign up
-													</a>
 												</Link>
 											)}
 										</Menu.Item>
