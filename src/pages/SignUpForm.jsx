@@ -1,14 +1,10 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { ERRORS_SIGN_UP } from '../common/constants';
 import { isEmail, isNumeric, isStrongPassword, isAlpha } from 'validator';
-import { useNavigate } from 'react-router-dom';
 
 const SignUpForm = () => {
 	const [isCorporate, setIsCorporate] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
-	const navigate = useNavigate();
-
 	const [userStorage, setUserStorage] = useState({
 		firstName: {
 			value: '',
@@ -53,30 +49,6 @@ const SignUpForm = () => {
 			},
 		},
 	});
-	// const [corporateStorage, setCorporateStorage] = useState({
-	// 	phoneNumber: {
-	// 		value: '',
-	// 		valid: false,
-	// 	},
-	// 	companyName: {
-	// 		value: '',
-	// 		valid: false,
-	// 	},
-	// });
-	// const [addressStorage, setAddressStorage] = useState({
-	// 	street: {
-	// 		value: '',
-	// 		valid: false,
-	// 	},
-	// 	city: {
-	// 		value: '',
-	// 		valid: false,
-	// 	},
-	// 	index: {
-	// 		value: '',
-	// 		valid: false,
-	// 	},
-	// });
 	const userHandleChange = (event) => {
 		const { name, value } = event.target;
 		let isValid = false;
@@ -118,139 +90,46 @@ const SignUpForm = () => {
 					? {
 							[name]: { value, valid },
 							address: { ...prevUserStorage.corporateStorage.address },
-						}
+					  }
 					: alt === 'address'
-					? { address: { ...prevUserStorage.corporateStorage.address, [name]: { value, valid } } }
+					? {
+							address: {
+								...prevUserStorage.corporateStorage.address,
+								[name]: { value, valid },
+							},
+					  }
 					: {}),
 			},
 			...(alt.length === 0 ? { [name]: { value, valid } } : {}),
 		}));
-
-		// if (alt === 'corporateStorage') {
-		// 	setUserStorage((prevUserStorage) => ({
-		// 		...prevUserStorage,
-		// 		corporateStorage: {
-		// 			...prevUserStorage.corporateStorage,
-		// 			[name]: { value, valid },
-		// 			address: {
-		// 				...prevUserStorage.corporateStorage.address,
-		// 			},
-		// 		},
-		// 	}));
-		// }
-		// if (alt === 'address') {
-		// 	setUserStorage((prevUserStorage) => ({
-		// 		...prevUserStorage,
-		// 		corporateStorage: {
-		// 			...prevUserStorage.corporateStorage,
-		// 			address: {
-		// 				...prevUserStorage.corporateStorage.address,
-		// 				[name]: { value, valid },
-		// 			},
-		// 		},
-		// 	}));
-		// }
-		// if (!alt.length) {
-		// 	setUserStorage((prevUserStorage) => ({
-		// 		...prevUserStorage,
-		// 		[name]: { value, valid },
-		// 		corporateStorage: {
-		// 			...prevUserStorage.corporateStorage,
-		// 			address: {
-		// 				...prevUserStorage.corporateStorage.address,
-		// 			},
-		// 		},
-		// 	}));
-		// }
 	};
 	console.log(userStorage);
-	// setCorporateStorage((prevCorporateStorage) => ({
-	// 	...prevCorporateStorage,
-	// 	[name]: { value, valid },
-	// }));
-	// setAddressStorage((prevAddressStorage) => ({
-	// 	...prevAddressStorage,
-	// 	[name]: { value, valid },
-	// }));
 
-	// const corporateHandleChange = (event) => {
-	// 	const { name, value } = event.target;
-	// 	// console.log(value);
-	// 	let isValid = false;
-	// 	switch (name) {
-	// 		case 'phoneNumber':
-	// 			isValid = isNumeric(value);
-	// 			break;
-	// 		case 'companyName':
-	// 			isValid = isAlpha(value);
-	// 		default:
-	// 			break;
-	// 	}
-	// 	requiredInputHandler(name, value, isValid);
-
-	// };
-	// const addressHandleChange = (event) => {
-	// 	let { name, value } = event.target;
-	// 	// console.log(name);
-	// 	if (name === 'index') {
-	// 		if (isNaN(+value)) {
-	// 			value = value.replace(/[^0-9]/g, '');
-	// 		}
-	// 	}
-	// 	let isValid = false;
-	// 	switch (name) {
-	// 		case 'street':
-	// 			isValid = isAlpha(value);
-	// 			break;
-
-	// 		case 'index':
-	// 			isValid = isNumeric(value);
-	// 			break;
-
-	// 		case 'city':
-	// 			isValid = isAlpha(value);
-	// 			break;
-	// 	}
-	// 	requiredInputHandler(name, value, isValid);
-	// };
 	const checkCorporateHandler = () => {
 		setIsCorporate(true);
-
 	};
 	const checkUserHandler = () => {
 		setIsCorporate(false);
-
 	};
-	// console.log(isCorporate);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if (isCorporate) {
 			console.log({
 				...userStorage,
-				// corporateInfo: {
-				// 	phoneNumber: userStorage.corporateStorage.phoneNumber.value,
-				// 	companyName: userStorage.corporateStorage.companyName.value,
-				// 	address: {
-				// 		street: userStorage.corporateStorage.address.street.value,
-				// 		index: userStorage.corporateStorage.address.index.value,
-				// 		city: userStorage.corporateStorage.address.city.value,
-				// 	},
-				// 	// Add other fields if needed
-				// },
 			});
 		} else {
 			console.log({ ...userStorage });
 			setErrorMessage(
 				ERRORS_SIGN_UP[
-				Object.keys(userStorage).find((el) => {
-					if (el === 'corporateStorage') {
-						return !Object.keys(userStorage[el]).every(
-							(subEl) => userStorage[el][subEl].valid
-						);
-					}
-					return !userStorage[el].valid;
-				})
+					Object.keys(userStorage).find((el) => {
+						if (el === 'corporateStorage') {
+							return !Object.keys(userStorage[el]).every(
+								(subEl) => userStorage[el][subEl].valid
+							);
+						}
+						return !userStorage[el].valid;
+					})
 				]
 			);
 		}
@@ -262,8 +141,6 @@ const SignUpForm = () => {
 		// 	},
 		// });
 	};
-
-	// console.log(`form submitted=> ${}`);
 
 	return (
 		<div className="container mx-auto px-4 py-4">
@@ -435,7 +312,7 @@ const SignUpForm = () => {
 									className="pl-2 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 									placeholder=" "
 									required
-									alt='corporateStorage'
+									alt="corporateStorage"
 								/>
 								<label
 									htmlFor="phoneNumber"
@@ -454,7 +331,7 @@ const SignUpForm = () => {
 									className="pl-2 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 									placeholder=" "
 									required
-									alt='corporateStorage'
+									alt="corporateStorage"
 								/>
 								<label
 									htmlFor="companyName"
@@ -473,7 +350,7 @@ const SignUpForm = () => {
 										className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 										placeholder="Street"
 										type="text"
-										alt='address'
+										alt="address"
 									/>
 
 									<input
@@ -484,7 +361,7 @@ const SignUpForm = () => {
 										placeholder="Index"
 										type="text"
 										maxLength="6"
-										alt='address'
+										alt="address"
 									/>
 
 									<input
@@ -494,7 +371,7 @@ const SignUpForm = () => {
 										className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 										placeholder="City"
 										type="text"
-										alt='address'
+										alt="address"
 									/>
 								</div>
 							</div>
